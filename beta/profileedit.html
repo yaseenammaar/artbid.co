@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="img/heart.svg">
+
+  <title>Artbid - Home</title>
+  <style type="text/css">
+    body{
+      background-color: white;
+    }
+    span{
+      cursor: pointer;
+    }
+    #main-img {
+      margin:4%;
+      
+      max-width:100px;
+      max-height:100px;
+      width: auto;
+      height: auto;      
+    } 
+    @media screen and (max-width: 767px) {   
+        #main-img{
+          content:url(img/ar-s.png);
+                max-height:50px;
+                margin-left: 20px;
+
+        } 
+    }
+
+    @media screen and (min-width: 768px) {      
+        #main-img{      
+          content:url(img/ar-s.png);
+                max-height:50px;
+
+        } 
+    } 
+    @media (min-width: 992px) {     
+        body{
+          margin-left: 20%;
+          margin-right: 20%;
+
+        } 
+
+          #main-img{        
+              content:url(img/ar-l.png);
+          } 
+    }
+    @media (min-width: 1200px) {    
+         #main-img{         
+             content:url(img/ar-l.png);
+         } 
+    }
+    #right-icons{
+      float: right;
+      height: auto;
+      width: 50%;
+      margin: 4%;
+    }
+
+     #heart-icon {
+      float: right;
+      content: url(img/heart.svg);
+      margin-right: 2%;
+      max-width:27px;
+      max-height:27px;
+      width: auto;
+      height: auto;      
+    } 
+    #bid-icon {
+      float: right;
+      content: url(img/auction.svg);
+      margin-right: 2%;
+      max-width:27px;
+      max-height:27px;
+      width: auto;
+      height: auto;      
+    } 
+
+    .search {
+      float: right;
+      margin-right: 2%;
+      max-width:100px;
+      max-height:100px;
+      display: table;
+      width: auto;
+      height: auto;   
+}
+ .search input {
+   background: none;
+   border: none;
+   outline: none;
+   width: 28px;
+   min-width: 0;
+   padding: 0;
+   z-index: 1;
+   position: relative;
+   line-height: 18px;
+   margin: 1px 0;
+   font-size: 14px;
+   -webkit-appearance: none;
+   font-family: 'Mukta Malar';
+   transition: all 0.6s ease;
+   cursor: pointer;
+   color: #000;
+}
+ .search input + div {
+   position: relative;
+   height: 28px;
+   width: 100%;
+   margin: -32px 0 0 0;
+}
+ .search input + div svg {
+   display: block;
+   position: absolute;
+   height: 50px;
+   width: 160px;
+   right: 0;
+   top: 0;
+   fill: none;
+   stroke: #000;
+   stroke-width: 1.5px;
+   stroke-dashoffset: 271.908;
+   stroke-dasharray: 59 212.908;
+   transition: all 0.6s ease;
+}
+ .search input:not(:placeholder-shown), .search input:focus {
+   width: 160px;
+   padding: 0 4px;
+   cursor: text;
+}
+ .search input:not(:placeholder-shown) + div svg, .search input:focus + div svg {
+   stroke-dasharray: 150 212.908;
+   stroke-dashoffset: 300;
+}
+ ::selection {
+   background: rgba(255, 255, 255, .2);
+}
+ ::-moz-selection {
+   background: rgba(255, 255, 255, .2);
+}
+:root {
+   --input-color: #99a3ba;
+   --input-border: #cdd9ed;
+   --input-background: #fff;
+   --input-placeholder: #cbd1dc;
+   --input-border-focus: #275efe;
+   --group-color: var(--input-color);
+   --group-border: var(--input-border);
+   --group-background: #eef4ff;
+   --group-color-focus: #fff;
+   --group-border-focus: var(--input-border-focus);
+   --group-background-focus: #678efe;
+}
+ .form-field {
+   display: block;
+   width: 100%;
+   padding: 8px 16px;
+   line-height: 25px;
+   font-size: 14px;
+   font-weight: 500;
+   font-family: inherit;
+   border-radius: 6px;
+   -webkit-appearance: none;
+   color: var(--input-color);
+   border: 1px solid var(--input-border);
+   background: var(--input-background);
+   transition: border 0.3s ease;
+}
+ .form-field::placeholder {
+   color: var(--input-placeholder);
+}
+ .form-field:focus {
+   outline: none;
+   border-color: var(--input-border-focus);
+}
+ .form-group {
+   position: relative;
+   display: flex;
+   width: 100%;
+}
+ .form-group > span, .form-group .form-field {
+   white-space: nowrap;
+   display: block;
+}
+ .form-group > span:not(:first-child):not(:last-child), .form-group .form-field:not(:first-child):not(:last-child) {
+   border-radius: 0;
+}
+ .form-group > span:first-child, .form-group .form-field:first-child {
+   border-radius: 6px 0 0 6px;
+}
+ .form-group > span:last-child, .form-group .form-field:last-child {
+   border-radius: 0 6px 6px 0;
+}
+ .form-group > span:not(:first-child), .form-group .form-field:not(:first-child) {
+   margin-left: -1px;
+}
+ .form-group .form-field {
+   position: relative;
+   z-index: 1;
+   flex: 1 1 auto;
+   width: 1%;
+   margin-top: 0;
+   margin-bottom: 0;
+}
+ .form-group > span {
+   text-align: center;
+   padding: 8px 12px;
+   font-size: 14px;
+   line-height: 25px;
+   color: var(--group-color);
+   background: var(--group-background);
+   border: 1px solid var(--group-border);
+   transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
+}
+ .form-group:focus-within > span {
+   color: var(--group-color-focus);
+   background: var(--group-background-focus);
+   border-color: var(--group-border-focus);
+}
+ html {
+   box-sizing: border-box;
+   -webkit-font-smoothing: antialiased;
+}
+ * {
+   box-sizing: inherit;
+}
+ *:before, *:after {
+   box-sizing: inherit;
+}
+ 
+ body .form-group {
+   max-width: 360px;
+}
+ body .form-group:not(:last-child) {
+   margin-bottom: 32px;
+}
+.box {
+    margin: 0px 20px 0px 0px;
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .box::after {
+    content: "";
+    border-radius: 5px;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .box:hover {
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+  }
+
+  .box:hover::after {
+      opacity: 1;
+  }
+  button
+  {
+      width:120px;
+      height:80px;
+      display:block;
+      
+      outline:none;
+  }
+
+  input {
+   display: block;
+   margin: 2em auto;
+   border: none;
+   padding: 0;
+   width: 9ch;
+   background: repeating-linear-gradient(90deg, dimgrey 0, dimgrey 1ch, transparent 0, transparent 1.5ch) 0 100%/ 8.5ch 2px no-repeat;
+   font: 5ch droid sans mono, consolas, monospace;
+   letter-spacing: 0.5ch;
+}
+ input:focus {
+   outline: none;
+   color: dodgerblue;
+}
+ 
+ 
+
+
+  </style>
+
+
+</head>
+<body>
+
+
+<div class="topbar">
+    <span id="main-img" onclick="goto('index.html')"></span>
+    <span id="right-icons">
+      
+      <span id="bid-icon" onclick="goto('activebids.html')"></span>
+      <span id="heart-icon"></span>
+      <span class="search">
+          <input type="text" placeholder=" " onkeyup="showresult(this.value)">
+          <div class="search-container">
+              <svg>
+                  <use xlink:href="#path">
+              </svg>
+          </div>
+      </span>
+          
+      <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+          <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 28" id="path">
+              <path d="M32.9418651,-20.6880772 C37.9418651,-20.6880772 40.9418651,-16.6880772 40.9418651,-12.6880772 C40.9418651,-8.68807717 37.9418651,-4.68807717 32.9418651,-4.68807717 C27.9418651,-4.68807717 24.9418651,-8.68807717 24.9418651,-12.6880772 C24.9418651,-16.6880772 27.9418651,-20.6880772 32.9418651,-20.6880772 L32.9418651,-29.870624 C32.9418651,-30.3676803 33.3448089,-30.770624 33.8418651,-30.770624 C34.08056,-30.770624 34.3094785,-30.6758029 34.4782612,-30.5070201 L141.371843,76.386562" transform="translate(83.156854, 22.171573) rotate(-225.000000) translate(-83.156854, -22.171573)"></path>
+          </symbol>
+      </svg>
+
+
+    </span>
+    <div><center>
+      <h1>Register</h1>
+      <div id="edit-form-container">
+
+        <div class="form-group">
+          <span>+91</span>
+              <input class="form-field" type="Phone" placeholder="Phone" disabled="">
+          </div>
+
+      </div>
+
+
+      </center></div>
+<script type="text/javascript">
+  var lis = document.getElementById("grid-ul").getElementsByTagName("li");
+  for (i = 0; i < lis.length; i++) {
+    lis[i].setAttribute("onclick","window.location.href = \'itempage.html\'");
+  }
+  function goto(link){
+    window.location.href = link;
+  }
+  
+
+
+  function showResult(str) {
+    if (str.length==0) {
+      document.getElementById("livesearch").innerHTML="";
+      document.getElementById("livesearch").style.border="0px";
+      return;
+    }
+    document.getElementById("livesearch").innerHTML=str;
+    document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="img/heart.svg">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">  
+
+
+  <title>Artbid - Product</title>
+ <style type="text/css">
+    hr.sep-3::after {
+      content: '§';
+      display: inline-block;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(60deg);
+      transform-origin: 50% 50%;
+      padding: 1rem;
+      background-color: white;
+    }
+
+
+    .product-page{
+      background: white;
+        border-radius: 7px 7px 7px 7px;
+        /* VIA CSS MATIC https://goo.gl/cIbnS */
+        -webkit-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+        -moz-box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+        box-shadow: 0px 14px 32px 0px rgba(0, 0, 0, 0.15);
+        padding: 20px;
+    }
+    .product-page span img{
+        height: 300px;
+        width: 180px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    @media screen and (max-width: 767px) {   
+        .product-page{
+          margin:0% 15% 0 15%;
+        }
+    }
+
+    @media screen and (min-width: 768px) {      
+        .product-page{
+          margin:0% 15% 0 15%;
+        }
+    } 
+    @media screen and (max-width: 1000px) {   
+        #description{
+          position: relative;
+          width: 45%;
+        }
+    }
+
+    @media screen and (min-width: 1000px) {      
+        #description{
+          position: relative;
+          width: 45%;
+        }
+    } 
+    
+    
+
+    #product-details{
+      position: absolute;
+      margin: 0 0 0 2% ;
+
+    }
+    button{
+      height: 30px;
+      padding: 5px;
+      border-radius: 5px;
+      
+    }
+    input{
+      padding: 5px;
+    }
+    
+    h5{
+      font-size: 1em;
+    }
+    h4{
+      font-size: 20px;
+    }
+
+   
+  </style>
+
+
+</head>
+<body>
+
+
+<div class="topbar">
+    <span id="main-img" onclick="goto('index.html')"></span>
+    <span id="right-icons">
+      
+      <span id="bid-icon" onclick="goto('activebids.html')"></span>
+      <span id="profile-icon" onclick="checkauth()"></span>
+      
+  </div>  
+  <hr class="sep-3"/>
+
+  <div class="product-page" >
+    <span>
+      <img src="https://storage.needpix.com/rsynced_images/plato-3230487_1280.jpg" class="product-image" onclick="goto('preview.html')">
+    </span>
+    <span id="product-details">
+    
+      <h2 id="title">Title</h2>
+      <h6 id="byuser">By User</h6>
+      <h4 id="price"><b>₹ 10,000</b> <i>by Yaseen Ammaar</i></h4>
+      <h5 id="description">Description Description Description Description Description Description Description Description Description  </h5>
+      <div class="form-group" id="phone-input">
+          <span>₹</span>
+              <input class="form-field" type="Phone" placeholder="Next Bid" id="phoneNumber">
+          </div>
+      <button>Bid Now</button>
+    </span>
+
+
+  </div><br><br>
+    <hr class="sep-3"/>
+
+
+
+<script type="text/javascript">
+
+  function checkauth(){
+
+    //check authentication then
+
+    // window.location.href = 'login.html';
+    window.location.href = 'profile.html';
+
+  }
+
+
+  function showupcomingdialog(){
+      Swal.fire(
+        'Upcoming!!!',
+        'Told You',
+        'info',
+      )
+  }
+  function goto(link){
+    var delayInMilliseconds = 500; //1 second
+
+
+    setTimeout(function() {
+      window.location.href = link;
+    }, delayInMilliseconds);
+
+    
+  }
+  
+
+
+  function showResult(str) {
+    if (str.length==0) {
+      document.getElementById("livesearch").innerHTML="";
+      document.getElementById("livesearch").style.border="0px";
+      return;
+    }
+    document.getElementById("livesearch").innerHTML=str;
+    document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+  }
+
+
+  $(document).ready(function() {
+  var ripple_wrap = $('.ripple-wrap'),
+      rippler = $('.ripple'),
+      finish = false,
+      monitor = function(el) {
+        var computed = window.getComputedStyle(el, null),
+            borderwidth = parseFloat(computed.getPropertyValue('border-left-width'));
+        if (!finish && borderwidth >= 1500) {
+          el.style.WebkitAnimationPlayState = "paused";
+          el.style.animationPlayState = "paused";
+          swapContent();
+        }
+        if (finish) {
+          el.style.WebkitAnimationPlayState = "running";
+          el.style.animationPlayState = "running";
+          return;
+        } else {
+          window.requestAnimationFrame(function() {monitor(el)});
+        }
+      };
+  
+  storedcontent = $('#content-2').html();
+  $('#content-2').remove();
+  
+  rippler.bind("webkitAnimationEnd oAnimationEnd msAnimationEnd mozAnimationEnd animationend", function(e){
+    ripple_wrap.removeClass('goripple');
+  });
+
+  $('body').on('click', 'li', function(e) {
+    rippler.css('left', e.clientX + 'px');
+    rippler.css('top', e.clientY + 'px');
+    e.preventDefault();
+    finish = false;
+    ripple_wrap.addClass('goripple');
+    window.requestAnimationFrame(function() {monitor(rippler[0])});
+    
+    
+  });
+  
+  
+ 
+  function swapContent() {
+      var newcontent = $('#content-area').html();
+      $('#content-area').html(storedcontent);
+      storedcontent = newcontent;
+      // do some Ajax, put it in the DOM and then set this to true
+      setTimeout(function() {
+        finish = true;
+      },10);
+  }
+  
+});
+</script>
+
+</body>
+</html>

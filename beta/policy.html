@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="icon" href="img/heart.svg">
+  <title>Artbid - Policy</title>
+    <link href="css/style.css" rel="stylesheet">
+<style type="text/css">
+  hr.sep-3::after {
+  content: '§';
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(60deg);
+  transform-origin: 50% 50%;
+  padding: 1rem;
+  background-color: white;
+}
+
+div{
+
+  font-size:5vw;
+}
+</style>
+
+
+</head>
+<body>
+
+
+<div class="topbar">
+    <span id="main-img" onclick="goto('index.html')"></span>
+    <span id="right-icons">
+      
+      <span id="bid-icon" onclick="goto('activebids.html')"></span>
+      <span id="profile-icon" onclick="checkauth()"></span>
+    </span>
+
+        <hr class="sep-3"/>
+        <h2>Cancellation and Refund Policy</h2>
+      <div>
+
+          You may cancel your account at anytime by emailing stwpd.official@gmail.com<br>
+          Once your account is cancelled all of your Content will be immediately deleted from the Service. Since deletion of all data is final please be sure that you do in fact want to cancel your account before doing so.<br>
+          If you cancel the Service in the middle of the month, you will receive one final invoice via email. Once that invoice has been paid you will not be charged again.<br>
+          Fraud: Without limiting any other remedies, ArtBid may suspend or terminate your account if we suspect that you (by conviction, settlement, insurance or escrow investigation, or otherwise) have engaged in fraudulent activity in connection with the Site.<br>
+          Note: no refunds are offered, even if a plan is canceled mid-month.<br><br><br>
+
+
+
+          ArtBid can suspend, cancel or terminate the account of the end user of any store<br>
+          Without limiting its other remedies, ArtBid may immediately issue a warning, temporarily suspend, indefinitely suspend or immediately terminate this Agreement and Your access to the Store(s) if You fail to comply with any terms specified herein. ArtBid may take such actions without providing You prior notice and at its sole discretion.<br><br>
+
+          ArtBid reserves the right, in its sole and exclusive discretion, to suspend or terminate Services to You upon receipt of any third party complaint that You have engaged in any activity that violates this Agreement, which may otherwise subject ArtBid to liability for any reason, or that may cause ArtBid to incur legal fees or other expenses.<br><br><br>
+
+          Upon termination, those provisions of this Agreement that expressly or by their nature survive will continue in full force and effect.
+   </div>
+          <hr class="sep-3"/>
+
+          <center>
+            <h6 onclick="showiconalert()" style="cursor: pointer;">Icons</h6>
+            <h6>Terms and Conditions | Contact Us | <a href="policy.html">Policy</a> | <a href="about.html">About</a></h6>
+            <h6>Stwpd Makes</h6>
+          </center>
+            
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script type="text/javascript" src="js/firebase.js"></script>
+  
+<script type="text/javascript">
+  
+      // Create a Recaptcha verifier instance globally
+      // Calls submitPhoneNumberAuth() when the captcha is verified
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: function(response) {
+            submitPhoneNumberAuth();
+          }
+        }
+      );
+
+      // This function runs when the 'sign-in-button' is clicked
+      // Takes the value from the 'phoneNumber' input and sends SMS to that phone number
+      function submitPhoneNumberAuth() {
+        var phoneNumber = "+91" + document.getElementById("phoneNumber").value;
+
+        if(phoneNumber.length==13)
+        {
+
+        var appVerifier = window.recaptchaVerifier;
+        $('#phone-input-div').hide();
+          $('#phoneshow').html("OTP sent to <b>" + phoneNumber + "</b><br>");
+
+        $('#code-input-div').show();
+        firebase
+          .auth()
+          .signInWithPhoneNumber(phoneNumber, appVerifier)
+          .then(function(confirmationResult) {
+            window.confirmationResult = confirmationResult;
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+        }else{
+          alert("Phone number must contain 10 digit.");
+        }
+      }
+      
+
+      // This function runs when the 'confirm-code' button is clicked
+      // Takes the value from the 'code' input and submits the code to verify the phone number
+      // Return a user object if the authentication was successful, and auth is complete
+      function submitPhoneNumberAuthCode() {
+        var code = document.getElementById("code").value;
+        confirmationResult
+          .confirm(code)
+          .then(function(result) {
+            var user = result.user;
+            console.log(user);
+            window.location.href = "index.html";
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
+
+
+      //This function runs everytime the auth state changes. Use to verify if the user is logged in
+      
+  function goto(link){
+    window.location.href = link;
+  }
+  
+
+
+  function showResult(str) {
+    if (str.length==0) {
+      document.getElementById("livesearch").innerHTML="";
+      document.getElementById("livesearch").style.border="0px";
+      return;
+    }
+    document.getElementById("livesearch").innerHTML=str;
+    document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+  }
+</script>
+
+</body>
+</html>

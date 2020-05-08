@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="img/heart.svg">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+  <title>Artbid - Home</title>
+  <style type="text/css">
+    body{
+      background-color: white;
+    }
+    span{
+      cursor: pointer;
+    }
+    #main-img {
+      margin:4%;
+      
+      max-width:100px;
+      max-height:100px;
+      width: auto;
+      height: auto;      
+    } 
+    @media screen and (max-width: 767px) {   
+        #main-img{
+          content:url(img/ar-s.png);
+                max-height:50px;
+                margin-left: 20px;
+
+        } 
+    }
+
+    @media screen and (min-width: 768px) {      
+        #main-img{      
+          content:url(img/ar-s.png);
+                max-height:50px;
+
+        } 
+    } 
+    @media (min-width: 992px) {     
+        body{
+          margin-left: 20%;
+          margin-right: 20%;
+
+        } 
+
+          #main-img{        
+              content:url(img/ar-l.png);
+          } 
+    }
+    @media (min-width: 1200px) {    
+         #main-img{         
+             content:url(img/ar-l.png);
+         } 
+    }
+    #right-icons{
+      float: right;
+      height: auto;
+      width: 50%;
+      margin: 4%;
+    }
+
+     #heart-icon {
+      float: right;
+      content: url(img/heart.svg);
+      margin-right: 2%;
+      max-width:27px;
+      max-height:27px;
+      width: auto;
+      height: auto;      
+    } 
+    #bid-icon {
+      float: right;
+      content: url(img/auction.svg);
+      margin-right: 2%;
+      max-width:27px;
+      max-height:27px;
+      width: auto;
+      height: auto;      
+    } 
+
+    .search {
+      float: right;
+      margin-right: 2%;
+      max-width:100px;
+      max-height:100px;
+      display: table;
+      width: auto;
+      height: auto;   
+}
+ .search input {
+   background: none;
+   border: none;
+   outline: none;
+   width: 28px;
+   min-width: 0;
+   padding: 0;
+   z-index: 1;
+   position: relative;
+   line-height: 18px;
+   margin: 1px 0;
+   font-size: 14px;
+   -webkit-appearance: none;
+   font-family: 'Mukta Malar';
+   transition: all 0.6s ease;
+   cursor: pointer;
+   color: #000;
+}
+ .search input + div {
+   position: relative;
+   height: 28px;
+   width: 100%;
+   margin: -32px 0 0 0;
+}
+ .search input + div svg {
+   display: block;
+   position: absolute;
+   height: 50px;
+   width: 160px;
+   right: 0;
+   top: 0;
+   fill: none;
+   stroke: #000;
+   stroke-width: 1.5px;
+   stroke-dashoffset: 271.908;
+   stroke-dasharray: 59 212.908;
+   transition: all 0.6s ease;
+}
+ .search input:not(:placeholder-shown), .search input:focus {
+   width: 160px;
+   padding: 0 4px;
+   cursor: text;
+}
+ .search input:not(:placeholder-shown) + div svg, .search input:focus + div svg {
+   stroke-dasharray: 150 212.908;
+   stroke-dashoffset: 300;
+}
+ ::selection {
+   background: rgba(255, 255, 255, .2);
+}
+ ::-moz-selection {
+   background: rgba(255, 255, 255, .2);
+}
+
+
+
+ul {
+  display: table;
+  padding: 10px 0 10px 0;
+  list-style: none;
+  width: 600px;
+  margin: 0 auto;
+}
+ul:hover li {
+  opacity: .8;
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+}
+ul li {
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  float: left;
+  margin: 5px;
+  width: 180px;
+  height: 300px;
+    border-radius: 10px;
+
+
+  opacity: 1;
+  transition: all .3s linear;
+}
+ul li:hover {
+  box-shadow: 0 5px 15px gba(0, 0, 0, 0.4);
+  opacity: 1;
+  transform: scale(1.08);
+  -webkit-filter: blur(0);
+  filter: blur(0);
+}
+ul li img{
+  object-fit: cover;
+  width:180px;
+  height:300px;
+  border-radius: 10px;
+
+}
+
+#top-btns{
+display:table;
+    margin-left: auto;
+    margin-right: auto;} 
+
+  .container{
+    width:250px;
+    height:100px;
+    margin: 20% auto;
+    color:red;
+    font-size:1rem;
+    font-family:Arial,Helvetica Neue,Helvetica,sans-serif;
+    
+    }
+  p{
+    text-align:center;
+  }
+   .box {
+    margin: 0px 20px 0px 0px;
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .box::after {
+    content: "";
+    border-radius: 5px;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .box:hover {
+    -webkit-transform: scale(1.1, 1.1);
+    transform: scale(1.1, 1.1);
+  }
+
+  .box:hover::after {
+      opacity: 1;
+  }
+  button
+  {
+      width:120px;
+      height:60px;
+      display:block;
+      
+      outline:none;
+  }
+hr.sep-3 {
+  border: none;
+  height: 1px;
+  background-image: linear-gradient(to right, #f0f0f0, #8f8f8f, #f0f0f0);
+}
+hr.sep-3::after {
+  content: '§';
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(60deg);
+  transform-origin: 50% 50%;
+  padding: 1rem;
+  background-color: white;
+}
+h6{
+  color: grey;
+}
+
+
+  </style>
+
+
+</head>
+<body>
+
+
+<div class="topbar">
+    <span id="main-img" onclick="goto('index.html')"></span>
+    <span id="right-icons">
+      
+      <span id="bid-icon" onclick="goto('activebids.html')"></span>
+      <!-- <span id="heart-icon"></span> -->
+      <span class="search">
+          <input type="text" placeholder=" " onkeyup="showresult(this.value)">
+          <div class="search-container">
+              <svg>
+                  <use xlink:href="#path">
+              </svg>
+          </div>
+      </span>
+          
+      <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+          <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 28" id="path">
+              <path d="M32.9418651,-20.6880772 C37.9418651,-20.6880772 40.9418651,-16.6880772 40.9418651,-12.6880772 C40.9418651,-8.68807717 37.9418651,-4.68807717 32.9418651,-4.68807717 C27.9418651,-4.68807717 24.9418651,-8.68807717 24.9418651,-12.6880772 C24.9418651,-16.6880772 27.9418651,-20.6880772 32.9418651,-20.6880772 L32.9418651,-29.870624 C32.9418651,-30.3676803 33.3448089,-30.770624 33.8418651,-30.770624 C34.08056,-30.770624 34.3094785,-30.6758029 34.4782612,-30.5070201 L141.371843,76.386562" transform="translate(83.156854, 22.171573) rotate(-225.000000) translate(-83.156854, -22.171573)"></path>
+          </symbol>
+      </svg>
+
+    </span>
+  </div>  
+  </div>
+  
+  <hr class="sep-3"/>
+  <center><h1>Cart Bid</h1></center>
+
+<ul id="grid-ul">
+  <li><img src="https://i.etsystatic.com/15285954/r/il/d302ac/1645649674/il_570xN.1645649674_trta.jpg"></li>
+  <li><img src="https://moneydotcomvip.files.wordpress.com/2018/02/180209-olympic-medal-worth.jpg"></li>
+  <li><img src="https://image.cnbcfm.com/api/v1/image/101415692-olympicmedals2.jpg?v=1392320578&w=1600&h=900"></li>
+  <li><img src="https://thearabweekly.com/sites/default/files/styles/article_image_800x450_/public/2019-08/The-various-phases-of-the-evolution-of-Arabic-calligraphy-can-be-seen-at-the-Sharjah-Calligraphy-Museum-Courtesy-Sharjah-Museums-Authority.jpg?itok=DsEMGpkY"></li>
+  <li><img src="https://static.dezeen.com/uploads/2017/10/Olympic-Winter-Games-2018-Medals-by-Pyeong-Chang_dezeen_sq1.jpg"></li>
+  <li><img src="https://i0.wp.com/www.swimmingworldmagazine.com/news/wp-content/uploads/2015/07/2016-olympic-torch.jpg?fit=1300%2C1029&ssl=1"></li>
+  <li><img src="https://image.cnbcfm.com/api/v1/image/101415692-olympicmedals2.jpg?v=1392320578&w=1600&h=900"></li>
+  <li><img src="https://www.cacciapescaarcieriamassi.com/shop/image/cache/data/armi%20nuove/DA%20ANL136/ANL146H-800x800.jpg"></li>
+  <li><img src="https://i.etsystatic.com/15285954/r/il/d302ac/1645649674/il_570xN.1645649674_trta.jpg"></li>
+  <li><img src="https://moneydotcomvip.files.wordpress.com/2018/02/180209-olympic-medal-worth.jpg?quality=85"></li>
+  <li><img src="https://i0.wp.com/www.swimmingworldmagazine.com/news/wp-content/uploads/2015/07/2016-olympic-torch.jpg?fit=1300%2C1029&ssl=1"></li>
+  <li><img src="https://thearabweekly.com/sites/default/files/styles/article_image_800x450_/public/2019-08/The-various-phases-of-the-evolution-of-Arabic-calligraphy-can-be-seen-at-the-Sharjah-Calligraphy-Museum-Courtesy-Sharjah-Museums-Authority.jpg?itok=DsEMGpkY"></li>
+</ul>
+
+  <hr class="sep-3" />
+  <center><h6>Stwpd Makes</h6></center>
+
+
+<script type="text/javascript">
+  function showupcomingdialog(){
+      Swal.fire(
+        'Upcoming!!!',
+        'Told You',
+        'info',
+      )
+  }
+  var lis = document.getElementById("grid-ul").getElementsByTagName("li");
+  for (i = 0; i < lis.length; i++) {
+    lis[i].setAttribute("onclick","window.location.href = \'itempage.html\'");
+  }
+  function goto(link){
+    window.location.href = link;
+  }
+  
+
+
+  function showResult(str) {
+    if (str.length==0) {
+      document.getElementById("livesearch").innerHTML="";
+      document.getElementById("livesearch").style.border="0px";
+      return;
+    }
+    document.getElementById("livesearch").innerHTML=str;
+    document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+  }
+</script>
+
+</body>
+</html>

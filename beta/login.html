@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="icon" href="img/heart.svg">
+  <title>Artbid - Home</title>
+    <link href="css/style.css" rel="stylesheet">
+<style type="text/css">
+  hr.sep-3::after {
+  content: '§';
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(60deg);
+  transform-origin: 50% 50%;
+  padding: 1rem;
+  background-color: white;
+}
+
+ input {
+   display: block;
+   margin: 2em auto;
+   border: none;
+   padding: 0;
+   width: 9ch;
+   background: repeating-linear-gradient(90deg, dimgrey 0, dimgrey 1ch, transparent 0, transparent 1.5ch) 0 100%/ 8.5ch 2px no-repeat;
+   font: 5ch droid sans mono, consolas, monospace;
+   letter-spacing: 0.5ch;
+}
+ input:focus {
+   outline: none;
+   color: dodgerblue;
+}
+</style>
+
+
+</head>
+<body>
+
+
+<div class="topbar">
+    <span id="main-img" onclick="goto('index.html')"></span>
+    <span id="right-icons">
+      <span id="bid-icon" onclick="goto('activebids.html')"></span>
+      <span id="profile-icon" onclick="checkauth()"></span>
+    </span>
+
+        <hr class="sep-3"/>
+
+    <div>
+      <center>
+            <div id="register-form-container">
+
+      <h1>Login</h1>
+
+        <div id="phone-input-div">
+        <div class="form-group" id="phone-input">
+          <span>+91</span>
+              <input class="form-field" type="Phone" placeholder="Phone" id="phoneNumber">
+          </div>
+           <button class="box" onclick="submitPhoneNumberAuth()" id="phone-submit-btn">Submit</button><br>
+           <span>Don't have account? <a href="register.html">Register here</a></span>
+           </div>
+           <center>
+            <div id="code-input-div">
+              <input id="code" maxlength="6"/>
+              <div id="phoneshow"></div>
+              <br><br><br>
+              <button class="box" onclick="submitPhoneNumberAuthCode()">Submit</button>
+              <button class="box" onclick="submitPhoneNumberAuth()">Resend</button>
+          </div>
+      </div>
+
+
+      </center>
+    </div>
+      <div id="recaptcha-container"></div>
+      <br>
+          <hr class="sep-3"/>
+<center>
+  <h6 onclick="showiconalert()" style="cursor: pointer;">Icons</h6>
+            <h6>Terms and Conditions | Contact Us | <a href="policy.html">Policy</a> | <a href="about.html">About</a></h6>
+  <h6>Stwpd Makes</h6>
+</center>
+
+
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script type="text/javascript" src="js/firebase.js"></script>
+  
+<script type="text/javascript">
+      $('#phone-input-div').hide();
+      $('#code-input-div').hide();
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          console.log("USER LOGGED IN");
+          window.location.href = "profile.html";
+        } else {
+          $('#phone-input-div').show();
+          console.log("USER NOT LOGGED IN");
+        }
+      });
+
+  
+      // Create a Recaptcha verifier instance globally
+      // Calls submitPhoneNumberAuth() when the captcha is verified
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: function(response) {
+            submitPhoneNumberAuth();
+          }
+        }
+      );
+
+      // This function runs when the 'sign-in-button' is clicked
+      // Takes the value from the 'phoneNumber' input and sends SMS to that phone number
+      function submitPhoneNumberAuth() {
+        var phoneNumber = "+91" + document.getElementById("phoneNumber").value;
+
+        if(phoneNumber.length==13)
+        {
+
+        var appVerifier = window.recaptchaVerifier;
+        $('#phone-input-div').hide();
+          $('#phoneshow').html("OTP sent to <b>" + phoneNumber + "</b><br>");
+
+        $('#code-input-div').show();
+        firebase
+          .auth()
+          .signInWithPhoneNumber(phoneNumber, appVerifier)
+          .then(function(confirmationResult) {
+            window.confirmationResult = confirmationResult;
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+        }else{
+          alert("Phone number must contain 10 digit.");
+        }
+      }
+      
+
+      // This function runs when the 'confirm-code' button is clicked
+      // Takes the value from the 'code' input and submits the code to verify the phone number
+      // Return a user object if the authentication was successful, and auth is complete
+      function submitPhoneNumberAuthCode() {
+        var code = document.getElementById("code").value;
+        confirmationResult
+          .confirm(code)
+          .then(function(result) {
+            var user = result.user;
+            console.log(user);
+            window.location.href = "index.html";
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
+
+
+      //This function runs everytime the auth state changes. Use to verify if the user is logged in
+      
+  function goto(link){
+    window.location.href = link;
+  }
+  
+
+
+  function showResult(str) {
+    if (str.length==0) {
+      document.getElementById("livesearch").innerHTML="";
+      document.getElementById("livesearch").style.border="0px";
+      return;
+    }
+    document.getElementById("livesearch").innerHTML=str;
+    document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+  }
+</script>
+
+</body>
+</html>

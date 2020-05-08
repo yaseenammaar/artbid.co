@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="icon" href="img/heart.svg">
+  <title>Artbid - About</title>
+    <link href="css/style.css" rel="stylesheet">
+<style type="text/css">
+  hr.sep-3::after {
+  content: '§';
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(60deg);
+  transform-origin: 50% 50%;
+  padding: 1rem;
+  background-color: white;
+}
+</style>
+
+
+</head>
+<body>
+
+
+<div class="topbar">
+    <span id="main-img" onclick="goto('index.html')"></span>
+    <span id="right-icons">
+      
+      <span id="bid-icon" onclick="goto('activebids.html')"></span>
+      <span id="profile-icon" onclick="checkauth()"></span>
+    </span>
+
+        <hr class="sep-3"/>
+        <h2>About</h2>
+      <div>
+
+          Hello! Welcome to Artbid.co , India's best eCommerce platform with bid feature anywhere on the internet. Here, you will find thousands of artists/sellers who put up their colossal variety of commodities stacked up at our shelves, ranging from all type of art-forms to antiques and even things that don’t have market value.<br><br>
+      This platform is launched by Stwpd Makes, initially focusing to elevate small/indie businesses to a national level. Artbid was made to help artists of all forms to put value to their work, and that’s its reason to exist!<br>
+We promise to provide people with the best top-notch brands, agreeable prices and an easy way of selling and buying things that you are looking for.  <br>
+We assure our customers safety and security during their dealings on our platform. This public bidding provision will help you make the right decision just as swiftly as safely it will happen. This feature will give you a plus point over online products as you will be able to choose from a number of bidders, giving you independence from online fixed prices.<br>
+We are striving to make bidding comfortable for both are bidders and sellers. Here you can grab exciting products at beatable prices. And it will also help its sellers to make their perfect findings in no time with just a few click from their phones!<br><br>
+
+So happy browsing! We hope that people will understand our motives behind building this site and try to help us achieve those ends and bring this nascent initiative to its greatest heights, because EVERYTHING IS AN ART!<br>
+   </div>
+          <hr class="sep-3"/>
+
+          <center>
+            <h6 onclick="showiconalert()" style="cursor: pointer;">Icons</h6>
+            <h6>Terms and Conditions | Contact Us | <a href="policy.html">Policy</a> | <a href="about.html">About</a></h6>
+            <h6>Stwpd Makes</h6>
+          </center>
+            
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script type="text/javascript" src="js/firebase.js"></script>
+  
+<script type="text/javascript">
+  
+      // Create a Recaptcha verifier instance globally
+      // Calls submitPhoneNumberAuth() when the captcha is verified
+      window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: function(response) {
+            submitPhoneNumberAuth();
+          }
+        }
+      );
+
+      // This function runs when the 'sign-in-button' is clicked
+      // Takes the value from the 'phoneNumber' input and sends SMS to that phone number
+      function submitPhoneNumberAuth() {
+        var phoneNumber = "+91" + document.getElementById("phoneNumber").value;
+
+        if(phoneNumber.length==13)
+        {
+
+        var appVerifier = window.recaptchaVerifier;
+        $('#phone-input-div').hide();
+          $('#phoneshow').html("OTP sent to <b>" + phoneNumber + "</b><br>");
+
+        $('#code-input-div').show();
+        firebase
+          .auth()
+          .signInWithPhoneNumber(phoneNumber, appVerifier)
+          .then(function(confirmationResult) {
+            window.confirmationResult = confirmationResult;
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+        }else{
+          alert("Phone number must contain 10 digit.");
+        }
+      }
+      
+
+      // This function runs when the 'confirm-code' button is clicked
+      // Takes the value from the 'code' input and submits the code to verify the phone number
+      // Return a user object if the authentication was successful, and auth is complete
+      function submitPhoneNumberAuthCode() {
+        var code = document.getElementById("code").value;
+        confirmationResult
+          .confirm(code)
+          .then(function(result) {
+            var user = result.user;
+            console.log(user);
+            window.location.href = "index.html";
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
+
+
+      //This function runs everytime the auth state changes. Use to verify if the user is logged in
+      
+  function goto(link){
+    window.location.href = link;
+  }
+  
+
+
+  function showResult(str) {
+    if (str.length==0) {
+      document.getElementById("livesearch").innerHTML="";
+      document.getElementById("livesearch").style.border="0px";
+      return;
+    }
+    document.getElementById("livesearch").innerHTML=str;
+    document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+  }
+</script>
+
+</body>
+</html>

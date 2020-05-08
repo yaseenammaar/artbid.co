@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="icon" href="img/heart.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <style type="text/css">
+    hr.sep-3::after {
+      content: '§';
+      display: inline-block;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(60deg);
+      transform-origin: 50% 50%;
+      padding: 1rem;
+      background-color: white;
+    }
+    button{
+      height: 30px;
+    }
+  </style>
+
+
+  <title>Artbid - Home</title>
+</head>
+<body>
+
+
+<div class="topbar">
+    <span id="main-img" onclick="goto('index.html')"></span>
+    <span id="right-icons">
+      
+      <span id="bid-icon" onclick="goto('activebids.html')"></span>
+      <span id="profile-icon" onclick="checkauth()"></span>
+      <span id="plus-icon" onclick="goto('uploaditems.html')"></span>
+      <span class="search">
+          <input id="search-input" type="text" placeholder=" ">
+          <div class="search-container">
+              <svg>
+                  <use xlink:href="#path">
+              </svg>
+          </div>
+      </span>
+          
+      <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+          <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 28" id="path">
+              <path d="M32.9418651,-20.6880772 C37.9418651,-20.6880772 40.9418651,-16.6880772 40.9418651,-12.6880772 C40.9418651,-8.68807717 37.9418651,-4.68807717 32.9418651,-4.68807717 C27.9418651,-4.68807717 24.9418651,-8.68807717 24.9418651,-12.6880772 C24.9418651,-16.6880772 27.9418651,-20.6880772 32.9418651,-20.6880772 L32.9418651,-29.870624 C32.9418651,-30.3676803 33.3448089,-30.770624 33.8418651,-30.770624 C34.08056,-30.770624 34.3094785,-30.6758029 34.4782612,-30.5070201 L141.371843,76.386562" transform="translate(83.156854, 22.171573) rotate(-225.000000) translate(-83.156854, -22.171573)"></path>
+          </symbol>
+      </svg>
+
+    </span>
+  </div>  
+  </div>
+    <hr class="sep-3"/>
+
+
+        
+
+
+    <span id="top-btns">
+      
+      <button class="box" onclick="alert('Trending')">Trending</button>
+      <button class="box" onclick="alert('Saved')">Saved</button>
+      <button class="box" onclick="showupcomingdialog()">Upcoming</button>
+
+    </span>
+    <span id="search-btns">
+      
+      <button class="box" onclick="alert('Users')">Users</button>
+      <button class="box" onclick="alert('Items')">Items</button>
+
+    </span>
+
+<div style="align-items: center;">
+  <ul id="grid-ul">
+      <li class="col" ><img src="https://i.etsystatic.com/15285954/r/il/d302ac/1645649674/il_570xN.1645649674_trta.jpg"></li>
+      <li class="col"><img src="https://moneydotcomvip.files.wordpress.com/2018/02/180209-olympic-medal-worth.jpg"></li>
+      <li class="col"><img src="https://image.cnbcfm.com/api/v1/image/101415692-olympicmedals2.jpg?v=1392320578&w=1600&h=900"></li>
+      <li class="col"><img src="https://thearabweekly.com/sites/default/files/styles/article_image_800x450_/public/2019-08/The-various-phases-of-the-evolution-of-Arabic-calligraphy-can-be-seen-at-the-Sharjah-Calligraphy-Museum-Courtesy-Sharjah-Museums-Authority.jpg?itok=DsEMGpkY"></li>
+      <li class="col"><img src="https://static.dezeen.com/uploads/2017/10/Olympic-Winter-Games-2018-Medals-by-Pyeong-Chang_dezeen_sq1.jpg"></li>
+      <li class="col"><img src="https://i0.wp.com/www.swimmingworldmagazine.com/news/wp-content/uploads/2015/07/2016-olympic-torch.jpg?fit=1300%2C1029&ssl=1"></li>
+      <li class="col"><img src="https://itsblockchain.com/wp-content/uploads/2017/09/pexels-photo-210689.jpeg"></li>
+      <li class="col"><img src="https://ae01.alicdn.com/kf/HTB1NNbwhf1TBuNjy0Fjq6yjyXXaO/Cosplay-Ancient-Rome-Warrior-Sparta-Antique-Plastic-Helmet-Gold-Helmet-for-Adult-Halloween-Party-Brazil-Carnival.jpg"></li>
+      <li class="col"><img src="https://cdn11.bigcommerce.com/s-t6ezhe/images/stencil/500x659/products/221/3031/MSL-28-Detail01-update__10092.1582580972.jpg?c=2"></li>
+      <li class="col"><img src="https://www.nissan-global.com/EN/TOP2020/IMAGES/hero_01.jpg"></li>
+      <li class="col"><img src="https://static01.nyt.com/images/2019/12/22/books/review/22BestCovers-Dorfman-02/22BestCovers-Dorfman-02-articleLarge.jpg?quality=75&auto=webp&disable=upscale"></li>
+      <li class="col"><img src="https://themabscollection.net/images/1800s1/IMG_4507.jpg"></li>
+  </ul>
+</div>
+
+<!-- <div class="container">
+  <div class="dash uno"></div>
+  <div class="dash dos"></div>
+  <div class="dash tres"></div>
+  <div class="dash cuatro"></div>
+</div> -->
+
+  <hr class="sep-3" />
+  <center>
+  <h6 onclick="showiconalert()" style="cursor: pointer;">Icons</h6>
+            <h6>Terms and Conditions | Contact Us | <a href="policy.html">Policy</a> | <a href="about.html">About</a></h6>
+  <h6>Stwpd Makes</h6>
+</center>
+    <div class="ripple-wrap"><div class="ripple"></div></div>
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script type="text/javascript" src="js/firebase.js"></script>
+
+<script type="text/javascript">
+  window.screen.height;
+window.screen.width;
+if(window.screen.width<800)
+{
+  Swal.fire(
+        'Site is under development',
+        'Browse on desktop for better experience',
+        'info',
+      )
+}else{
+  Swal.fire(
+        'Site is under development',
+        'Demo preview',
+        'info',
+      )
+}
+
+  function checkauth(){
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+
+          // window.location.href = "profile.html";
+          window.location.href = 'profile.html';
+
+
+        } else {
+           window.location.href = 'login.html';
+        }
+      });
+
+  }
+
+    
+
+
+
+                document.getElementById("search-btns").style.display = "none";
+
+  $(document).ready(function(){
+      $("#search-input").on("input", function(){
+            var x = document.getElementById("grid-ul");
+
+          // Print entered value in a div box
+          if($(this).val()!="")
+          {
+              x.style.display = "none";
+              document.getElementById("top-btns").style.display = "none";
+              document.getElementById("search-btns").style.display = "table";
+              
+          }else{
+              document.getElementById("top-btns").style.display = "table";
+              document.getElementById("search-btns").style.display = "none";
+            x.style.display = "table";
+  
+          }
+      });
+  });
+
+  
+
+
+  function showupcomingdialog(){
+      Swal.fire(
+        'Upcoming!!!',
+        'Told You',
+        'info',
+      )
+  }
+  var lis = document.getElementById("grid-ul").getElementsByTagName("li");
+  for (i = 0; i < lis.length; i++) {
+    lis[i].setAttribute("onclick","goto('itempage.html')");
+  }
+  function goto(link){
+    var delayInMilliseconds = 500; //1 second
+
+
+    setTimeout(function() {
+      window.location.href = link;
+    }, delayInMilliseconds);
+
+    
+  }
+  
+
+
+  function showResult(str) {
+    if (str.length==0) {
+      document.getElementById("livesearch").innerHTML="";
+      document.getElementById("livesearch").style.border="0px";
+      return;
+    }
+    document.getElementById("livesearch").innerHTML=str;
+    document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+  }
+
+
+  $(document).ready(function() {
+  var ripple_wrap = $('.ripple-wrap'),
+      rippler = $('.ripple'),
+      finish = false,
+      monitor = function(el) {
+        var computed = window.getComputedStyle(el, null),
+            borderwidth = parseFloat(computed.getPropertyValue('border-left-width'));
+        if (!finish && borderwidth >= 1500) {
+          el.style.WebkitAnimationPlayState = "paused";
+          el.style.animationPlayState = "paused";
+          swapContent();
+        }
+        if (finish) {
+          el.style.WebkitAnimationPlayState = "running";
+          el.style.animationPlayState = "running";
+          return;
+        } else {
+          window.requestAnimationFrame(function() {monitor(el)});
+        }
+      };
+  
+  storedcontent = $('#content-2').html();
+  $('#content-2').remove();
+  
+  rippler.bind("webkitAnimationEnd oAnimationEnd msAnimationEnd mozAnimationEnd animationend", function(e){
+    ripple_wrap.removeClass('goripple');
+  });
+
+  $('body').on('click', 'li', function(e) {
+    rippler.css('left', e.clientX + 'px');
+    rippler.css('top', e.clientY + 'px');
+    e.preventDefault();
+    finish = false;
+    ripple_wrap.addClass('goripple');
+    window.requestAnimationFrame(function() {monitor(rippler[0])});
+    
+    
+  });
+  
+  
+ 
+  function swapContent() {
+      var newcontent = $('#content-area').html();
+      $('#content-area').html(storedcontent);
+      storedcontent = newcontent;
+      // do some Ajax, put it in the DOM and then set this to true
+      setTimeout(function() {
+        finish = true;
+      },10);
+  }
+  
+});
+  function showiconalert(){
+      Swal.fire(
+        'Icons',
+        'Icons made by Freepik from www.flaticon.com',
+        'info',
+      )
+  }
+</script>
+
+</body>
+</html>

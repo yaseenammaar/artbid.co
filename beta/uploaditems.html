@@ -1,0 +1,773 @@
+<html>
+<head>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    
+  <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link rel="icon" href="img/heart.svg">
+  <title>Artbid - Add Product</title>
+  <link rel="stylesheet" href="css/croppie.css" />
+  <script src="js/croppie.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+<style type="text/css">
+    hr.sep-3::after {
+      content: '§';
+      display: inline-block;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(60deg);
+      transform-origin: 50% 50%;
+      padding: 1rem;
+      background-color: white;
+    }
+    .selected-images{
+      padding: 10px;
+      width: 15%;
+      height: auto;
+      box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+    }
+    .selected-fimages{
+      overflow: hidden;
+      
+      box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    }
+
+    #closing-date{
+      background-color: white;
+    }
+
+
+    button{
+      height: 50px;
+    }
+
+
+
+
+  </style>
+
+</head>
+<body>
+  
+
+
+<div class="topbar">
+    <span id="main-img" onclick="goto('index.html')"></span>
+    <span id="right-icons">
+      
+      <span id="bid-icon" onclick="goto('activebids.html')"></span>
+      <span id="heart-icon"></span>
+    
+    </span>
+    <hr class="sep-3"/>
+
+
+  
+    <div><center>
+      <h1>Add Product</h1>
+
+
+      <div id="register-form-container">
+        <span id="f-span">
+          <img id="featured-image" height="300px" width="180px" class="selected-fimages"><br>
+        </span>
+        <br>
+        <button onclick="clickfselect()">Set Featured Image</button><br>
+        <div id="userphoto">
+          <div id="selected-pics" >
+            <img width="100px" height="100px"><img width="100px" height="100px"><img width="100px" height="100px"><img width="100px" height="100px"><img width="100px" height="100px">
+          </div>
+        </div>
+        <input id="uploadfbtn" type="file" accept="image/*" name="images" onchange="readURL(this);" style="visibility: hidden;">
+
+        <input id="uploadbtn" type="file" accept="image/*" name="images" multiple style="visibility: hidden;">
+
+        <br>
+        <button onclick="clickselect()">Set Images</button>
+        <br><br>
+        <div class="form-group">
+                      <span>≈</span>
+
+              <input id="title" class="form-field" placeholder="Title" minlength="10" maxlength="40">
+              <span id="title-counter">0/40</span>
+
+          </div>
+          <div class="form-group">
+            <span>≈</span>
+              <textarea id="description" wrap="hard" rows="5" cols="20" minlength="30" maxlength="150" id="description" class="form-field" placeholder="Description" required></textarea>
+              <span id="description-counter">0/150</span>
+          </div>
+          <div class="form-group">
+              <span>₹</span>
+              <input id="bprice" class="form-field" type="number" placeholder="Base price">
+          </div>
+          <div class="form-group">
+              <span>/</span>
+              <input id="ytlink" class="form-field" type="text" placeholder="YouTube Link(Optional)">
+          </div>
+          <div class="form-group">
+              <span>≈</span>
+              <input id="madeinyear" class="form-field" type="phone" minlength="4" maxlength="4" placeholder="Made in Year" onkeypress='checknum(event)' >
+          </div>
+          
+            <div id="date">
+            </div>
+            <span>Closing Time : </span><br>
+            <input type="radio" name="closingtime" value="12PM">
+            <label>12PM</label>
+            <input type="radio" name="closingtime" value="3PM">
+            <label>3PM</label>
+            <input type="radio" name="closingtime" value="6PM">
+            <label>6PM</label><br>
+          <select id="category" required>
+            <option disabled selected>Categories</option>
+            <option>Art</option>
+            <option>Clothing</option>
+            <option>Coins/Bills</option>
+            <option>Electronics</option>
+            <option>Jewellery</option>
+            <option>Medal/Trophy</option>
+            <option>Stamps</option>
+            <option>Software</option>
+            <option>Sports</option>
+            <option>Vehicles</option>
+            <option>Weapons</option>
+            <option>Others</option>
+          </select><br><br>
+          <select name="state" id="state" required>
+            <option value="label" disabled selected>State</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+            <option value="Daman and Diu">Daman and Diu</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Lakshadweep">Lakshadweep</option>
+            <option value="Puducherry">Puducherry</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
+          </select><br><br>
+          <select id="delivery-type" required >
+            <option disabled selected>Delivery Type</option>
+            <option>All India</option>
+            <option>Only In</option>
+          </select><br><br>
+
+          <span id="state-name" hidden>
+            
+          </span><br>
+          <div>
+            <input id="ownership" type="checkbox" name="agreement" required>&nbsp;&nbsp;&nbsp;<span>Yes, I have ownership proof.</span><br>
+            <input id="agreement" type="checkbox" name="agreement" required>&nbsp;&nbsp;&nbsp;<span>I Agree ArtBid's Terms and Conditions</span>
+          </div>
+          <br>
+          
+         <!-- <button class="box" onclick="startupload()">Submit</button> </center> -->
+          <button class="box" onclick="validateinputs()">Submit</button> </center>
+         <br><br>
+
+      </div>
+  </div>
+   <hr class="sep-3" />
+  <center>
+  <h6 onclick="showiconalert()" style="cursor: pointer;">Icons</h6>
+  <h6>Terms and Conditions | Contact Us</h6>
+  <h6>Stwpd Makes</h6>
+</center>
+
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-database.js"></script>
+
+
+    <script type="text/javascript" src="js/firebase.js"></script>
+<script type="text/javascript">
+
+  function validateYouTubeUrl(link)
+  {
+      var url = $('#ytlink').val();
+          if (url != undefined || url != '') {
+              var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+              var match = url.match(regExp);
+              if (match && match[2].length == 11) {
+                  return true;
+              }
+              else {
+                  return false;
+              }
+          }
+  }
+
+  $('#description').keyup(updatedesCount);
+  $('#description').keydown(updatedesCount);
+
+  function updatedesCount() {
+      var cs = $(this).val().length;
+      $('#description-counter').text(cs+"/150");
+  }
+  $('#title').keyup(updateCount);
+  $('#title').keydown(updateCount);
+
+  function updateCount() {
+      var cs = $(this).val().length;
+      $('#title-counter').text(cs+"/40");
+  }
+
+  function nextweek(){
+    var today = new Date();
+    var nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate()+7);
+    nextweek = nextweek.toISOString().slice(0, 10);
+    return nextweek;
+}
+$('#date').html("<b>Closing date : "+nextweek()+"</b>");
+
+  // $("#closing-date").datepicker({
+  //   minDate: 0,  
+  //   maxDate: '+1w'
+  // });
+
+
+
+
+  // var lis = document.getElementById("grid-ul").getElementsByTagName("li");
+  // for (i = 0; i < lis.length; i++) {
+  //   lis[i].setAttribute("onclick","window.location.href = \'itempage.html\'");
+  // }
+  function goto(link){
+    window.location.href = link;
+  }
+
+  function clickselect(){
+    $('#uploadbtn').click();
+  }
+  function clickfselect(){
+    $('#uploadfbtn').click();
+  }
+
+
+ $(document).ready(function()
+     {
+  $("#delivery-type").change(function()
+           {
+            if($(this).val()=="Only In"){
+              $('#state-name').show();
+            }else{
+              $('#state-name').hide();
+
+            }
+           });
+
+
+});
+
+function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#featured-image')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+var featured;
+ $("#uploadfbtn").on("change", function() {
+        featured = $('#uploadfbtn').file;
+        $('#featured-image').setAttribute("src",URL.createObjectURL(featured));
+});
+
+
+   $("#uploadbtn").on("change", function() {
+    if ($("#uploadbtn")[0].files.length > 5) {
+        alert("You can select only 5 images");
+        $("#uploadbtn").val('');
+        $("#selected-pics").html('');
+
+    } else {
+              $("#selected-pics").html('');
+
+
+        for (var i = 0; i < $("#uploadbtn")[0].files.length; i++) {
+
+          var file = $("#uploadbtn")[0].files[i];
+          var img = document.createElement("img");
+          img.setAttribute("class",'selected-images');
+          img.src = URL.createObjectURL(file);
+
+          // var reader = new FileReader();
+          // reader.onloadend = function() {
+          //      img.src = reader.result;
+          // }
+          // reader.readAsDataURL(file);
+          $("#selected-pics").append(img);
+    }
+    }
+});
+
+   function validateinputs(){
+
+    var dont=0;
+
+    let filefUpload = document.getElementById("uploadfbtn").files;
+    if(filefUpload.length<1){
+      Swal.fire(
+          'Select featured photo',
+            '',
+            'error',
+          )
+      dont = 1;
+    }
+    let fileUpload = document.getElementById("uploadbtn").files;
+    if(fileUpload.length<1){
+      Swal.fire(
+          'Select product photos',
+            '',
+            'error',
+          )
+      dont = 1;
+    }
+
+
+
+    var title = $('#title').val();
+    var description = $('#description').val();
+    var baseprice = $('#bprice').val();
+    var ytlink = $('#ytlink').val();
+    var madeinyear = $('#madeinyear').val();
+    var closingdate = nextweek();
+    var closingtime = $('input[name="closingtime"]:checked').val();
+    var category = $( "#category option:selected" ).text();
+    var state = $( "#state option:selected" ).text();
+    var deliverytype = $( "#delivery-type option:selected" ).text();
+    var statenamesstr = "All";
+
+
+
+    if (!$("input[name='closingtime']").is(':checked')) {
+      Swal.fire(
+        'Select closing time',
+        '',
+        'error',
+        )
+      dont = 1;
+      }
+
+
+      if(category=='Categories'){
+        Swal.fire(
+          'Select a category',
+          '',
+          'error',
+          )
+        dont = 1;
+      }
+      if(state=='State'){
+        Swal.fire(
+          'Select a state',
+          '',
+          'error',
+          )
+        dont = 1;
+      }
+      if(deliverytype=='Delivery Type'){
+        Swal.fire(
+          'Select delivery type',
+          '',
+          'error',
+          )
+        dont = 1;
+      }
+
+      if(deliverytype=='Only In'){
+        var l = $("input:checkbox[name=statenames]:checked").length;
+        if(l==0){
+          Swal.fire(
+          'Select atleast one state for delivery',
+          '',
+          'error',
+          )
+          dont = 1;
+        }
+        
+      }
+
+      if(!$('#ownership').is(":checked")){
+        Swal.fire(
+          'You must have ownership proof',
+          '',
+          'error',
+          )
+        dont = 1;
+      }
+      if(!$('#agreement').is(":checked")){
+        Swal.fire(
+          'You must accept Terms and Conditions',
+          '',
+          'error',
+          )
+        dont = 1;
+      }
+
+    
+    
+    // if(deliverytype=="Only In"){
+    //   statenamesstr = "";
+    //   $("input:checkbox[name=statenames]:checked").each(function(){
+    //       statenamesstr.append($(this).val() +", ");
+    //   });
+    // }
+    if(title=='' || description=='' || baseprice=='' || madeinyear=='')
+    {
+      Swal.fire(
+          'Invalid submission',
+            'Enter all required inputs',
+            'error',
+          )
+      dont = 1;
+    }
+    if(title.length<10){
+      Swal.fire(
+          'Title length must be atleast 10',
+            '',
+            'error',
+          )
+      dont = 1;
+    }else{
+    }
+
+    if(description.length<40){
+      Swal.fire(
+          'Description length must be atleast 40',
+            '',
+            'error',
+          )
+      dont = 1;
+    }else{
+    }
+
+    if(ytlink.length>0)
+    {
+      var url = $('#ytlink').val();
+          if (url != undefined || url != '') {
+              var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+              var match = url.match(regExp);
+              if (match && match[2].length == 11) {
+              }
+              else {
+                Swal.fire(
+                  'Invalid Link',
+                  'Check Youtube link',
+                  'error',
+                )
+                dont = 1;
+              }
+          }
+    }
+
+    var dt = new Date();
+    var year = parseInt(dt.getFullYear());
+
+    if(parseInt(madeinyear) > year || parseInt(madeinyear) < 1000){
+      Swal.fire(
+          'Invalid made year',
+            'Made year must be between 1000 to ' + year,
+            'error',
+          )
+      dont = 1;
+    }else{
+    }
+    // if(validateYouTubeUrl(ytlink)){
+    //   return true;
+    // }else{
+      
+    //   return false;
+    // }
+    // if(baseprice>1000000)
+    // {
+    //   Swal.fire(
+    //     'Maximum base price is 10,00,000',
+    //     '',
+    //     'error',
+    //       )
+    //   dont = 1;
+    // }
+
+   
+    startupload()
+    
+   }
+
+
+  function startupload(){
+
+    var imageUrls = [];
+    var title = $('#title').val();
+    var description = $('#description').val();
+    var baseprice = $('#bprice').val();
+    var ytlink = $('#ytlink').val();
+    var madeinyear = $('#madeinyear').val();
+    var closingdate = nextweek();
+    var closingtime = $('input[name="closingtime"]:checked').val();
+    var category = $( "#category option:selected" ).text();
+    var state = $( "#state option:selected" ).text();
+    var deliverytype = $( "#delivery-type option:selected" ).text();
+    var statenamesstr = "All";
+    // if(deliverytype=="Only In"){
+    //   statenamesstr = "";
+    //   $("input:checkbox[name=statenames]:checked").each(function(){
+    //       statenamesstr.append($(this).val() +", ");
+    //   });
+    // }
+
+    let r = Math.random().toString(36).substring(7);
+    let fileUpload = document.getElementById("uploadfbtn");
+    let firstFile = fileUpload.files[0]
+    let extension = "."+fileUpload.value.split('.').pop()
+    console.log(extension)
+    // let userid = firebase.auth().currentUser.uid;
+    let userid = "test";
+    let storageRef = firebase.storage().ref('photos/' + userid + '/photof'+r+extension);
+    let uploadTask = storageRef.put(firstFile).then(snapshot => {
+      let url = snapshot.ref.getDownloadURL();
+        console.log(snapshot.ref.getDownloadURL())
+         return snapshot.ref.getDownloadURL();   // Will return a promise with the download link
+     }).then(downloadURL => {
+      console.log(`Successfully uploaded file and got download link - ${downloadURL}`);
+
+      let featuredurl = downloadURL
+      photoslength = $("#uploadbtn")[0].files.length
+      for (var i = 0; i < photoslength; i++) {
+                var imageFile = $("#uploadbtn")[0].files[i];
+                uploadImageAsPromise(imageFile);
+            }
+
+        //Handle waiting to upload each file using promise
+        function uploadImageAsPromise (imageFile) {
+            return new Promise(function (resolve, reject) {
+                let r = Math.random().toString(36).substring(7);
+                let extension = "."+imageFile.name.split('.').pop()
+
+                var storageRef = firebase.storage().ref('photos/'+userid+'/photo'+r+extension);
+
+                //Upload file
+                var task = storageRef.put(imageFile).then(snapshot => {
+                     return snapshot.ref.getDownloadURL();   // Will return a promise with the download link
+                 })
+
+                 .then(downloadURL => {
+                    console.log(`Successfully uploaded file and got download link - ${downloadURL}`);
+                        console.log(downloadURL)
+                        imageUrls.push(downloadURL)
+                        if(imageUrls.length==photoslength){
+                          var urlArray = Array.from(imageUrls)
+                          console.log('Done uploading all photos')
+                          var itemkey = firebase.database().ref().child('items').push().key;
+                          var firebasemodal = {
+                            b_price:baseprice,
+                            byUser:userid,
+                            caption:description,
+                            closing_date:closingdate,
+                            closing_time:closingtime,
+                            featuredimage:featuredurl,
+                            imgurl:urlArray,
+                            itemid:itemkey,
+                            status:0,
+                            title:title,
+                            category:category,
+                            state:state,
+                            availablestate:statenamesstr
+                          };
+                          firebase.database().ref('items/'+itemkey).set(firebasemodal);
+                          Swal.fire(
+                            'Product Uploaded',
+                            'Your product will be live after been reviewed',
+                            'success'
+                          )
+
+                          setTimeout(function () {
+                                  goto('index.html');
+                          }, 3000);
+
+                          
+
+                          
+                        }
+                    return downloadURL;
+                 })
+                 .catch(error => {
+                    // Use to signal error if something goes wrong.
+                    console.log(`Failed to upload file and get link - ${error}`);
+                 });;
+            });
+        }
+      // return downloadURL;
+
+   }).catch(error => {
+      // Use to signal error if something goes wrong.
+      console.log(`Failed to upload file and get link - ${error}`);
+   });
+  }
+
+
+  function showResult(str) {
+    if (str.length==0) {
+      document.getElementById("livesearch").innerHTML="";
+      document.getElementById("livesearch").style.border="0px";
+      return;
+    }
+    document.getElementById("livesearch").innerHTML=str;
+    document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+  }
+
+
+   function changePicture(){
+            $('#upload').click();
+        }
+        function readURL(input)
+        {
+            if (input.files && input.files[0])
+            {
+                var reader = new FileReader();
+                reader.onload = function (e)
+                {
+                    $('#featured-image')
+                    .attr('src',e.target.result);
+
+                };
+                reader.readAsDataURL(input.files[0]);
+                var basic = $('#croppie').croppie({
+                    viewport: {
+                        width: 150,
+                        height: 200
+                    }
+                });
+                basic.croppie('bind', {
+                    url: 'demo/cat.jpg',
+                    points: [77,469,280,739]
+                });
+                //on button click
+                basic.croppie('result', 'html').then(function(html) {
+                    // html is div (overflow hidden)
+                    // with img positioned inside.
+                });
+            }
+        }
+
+
+
+
+
+  var state = [ "Andhra Pradesh",
+                "Arunachal Pradesh",
+                "Assam",
+                "Bihar",
+                "Chhattisgarh",
+                "Goa",
+                "Gujarat",
+                "Haryana",
+                "Himachal Pradesh",
+                "Jammu and Kashmir",
+                "Jharkhand",
+                "Karnataka",
+                "Kerala",
+                "Madhya Pradesh",
+                "Maharashtra",
+                "Manipur",
+                "Meghalaya",
+                "Mizoram",
+                "Nagaland",
+                "Odisha",
+                "Punjab",
+                "Rajasthan",
+                "Sikkim",
+                "Tamil Nadu",
+                "Telangana",
+                "Tripura",
+                "Uttarakhand",
+                "Uttar Pradesh",
+                "West Bengal",
+                "Andaman and Nicobar Islands",
+                "Chandigarh",
+                "Dadra and Nagar Haveli",
+                "Daman and Diu",
+                "Delhi",
+                "Lakshadweep",
+                "Puducherry"];
+
+                var stateHTML = "";
+
+    var sortedArray = state.sort(function (a, b) {
+      if (a < b) return -1;
+      else if (a > b) return 1;
+      return 0;
+    });
+    state = sortedArray;
+    state.forEach(function(entry) {
+    stateHTML += "<input type=\"checkbox\" id=\""+entry+"\" name=\"statenames\" value=\""+entry+"\"> <label for=\""+entry+"\">" +entry+" | </label>&nbsp;&nbsp;&nbsp;";
+    // stateHTML+="<option value=\""+entry+"\">"+entry+"</option>";
+});  
+$('#state-name').html(stateHTML);
+
+
+function checknum(evt) {
+  var theEvent = evt || window.event;
+
+  // Handle paste
+  if (theEvent.type === 'paste') {
+      key = event.clipboardData.getData('text/plain');
+  } else {
+  // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode(key);
+  }
+  var regex = /[0-9]|\./;
+  if( !regex.test(key) ) {
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }
+}
+</script>
+
+</body>
+</html>
