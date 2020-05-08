@@ -34,7 +34,6 @@
   </style>
 
   <script type="text/javascript">
-    var database = firebase.database();
 
     var images = [];
     var imageid = [];
@@ -43,6 +42,8 @@
 
     function getitems()
     {
+          var database = firebase.database();
+
         var dbref = database.ref('items');
         dbref.on("value", function(child){
           child.forEach(function(snapshot){
