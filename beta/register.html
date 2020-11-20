@@ -6,6 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link rel="icon" href="img/heart.svg">
@@ -28,7 +29,7 @@
    margin: 2em auto;
    border: none;
    padding: 0;
-   width: 9ch;
+   width: 40%;
    background: repeating-linear-gradient(90deg, dimgrey 0, dimgrey 1ch, transparent 0, transparent 1.5ch) 0 100%/ 8.5ch 2px no-repeat;
    font: 5ch droid sans mono, consolas, monospace;
    letter-spacing: 0.5ch;
@@ -36,6 +37,16 @@
  input:focus {
    outline: none;
    color: dodgerblue;
+}
+.form-group{
+  width: 70%;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
 </style>
 
@@ -62,23 +73,29 @@
         <div id="phone-input-div">
         <div class="form-group" id="phone-input">
           <span>+91</span>
-              <input class="form-field" type="Phone" placeholder="Phone" id="phoneNumber">
+              <input class="form-field" type="number" placeholder="Phone" id="phoneNumber">
           </div>
           <div class="form-group" id="phone-input">
           <span>@</span>
               <input class="form-field" type="Email" placeholder="Email" id="email">
           </div>
           <div class="form-group" id="phone-input">
-              <input class="form-field" type="text" placeholder="Username" id="phoneNumber">
+              <input class="form-field" type="text" placeholder="Username" id="username">
           </div>
-
-           <button class="box" onclick="submitPhoneNumberAuth()" id="phone-submit-btn">Register</button>
+          <br>
+          <select id="acc_for" onchange="getdropdownchange()">
+            <option disabled selected>Select</option>
+            <option>Individual</option>
+            <option>Community</option>
+          </select>
+          <br><br>
+           <button class="box" onclick="validate()" id="phone-submit-btn" >Register</button>
            <br><br>
            <span>Already a member? <a href="login.html">Login</a></span>
            </div>
            <center>
             <div id="code-input-div">
-              <input id="code" maxlength="6"/>
+              <input id="code" maxlength="6" />
               <div id="phoneshow"></div>
               <br><br><br>
               <button class="box" onclick="submitPhoneNumberAuthCode()">Submit</button>
@@ -101,16 +118,182 @@
 
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-database.js"></script>
+
     <script type="text/javascript" src="js/firebase.js"></script>
   
 <script type="text/javascript">
       $('#phone-input-div').hide();
       $('#code-input-div').hide();
 
+      $('#gender').hide();
+
+      function getdropdownchange(){
+        if($( "#acc_for option:selected" ).text()=="Individual"){
+          $('#gender').show()
+        }else{
+          $('#gender').hide();
+        }
+      }
+
+      function validate(){
+        var phoneNumber = document.getElementById("phoneNumber").value;
+          var emailid = document.getElementById("email").value;
+          var username = document.getElementById("username").value;
+
+          username = username.toLowerCase();
+          var phonefound = 0;
+          var emailfound = 0;
+          var usernamefound = 0;
+
+          var count = 0;
+          var counte = 0;
+          var countu = 0;
+          var format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,<>\/?~]/;
+          var dbref = firebase.database().ref('user');
+          if(email != "" && phoneNumber != "" && username != "")
+          {
+
+          if(phoneNumber.length==10){
+            if(emailid.includes("@")){
+                        var spl = emailid.split('@');
+                        if(spl[1].includes('.')){
+                          dbref.on("value", function(snap){
+                          snap.forEach(function(snapshot){
+                            if(phoneNumber==snapshot.val().phone){
+                              phonefound = 1;
+                            }
+                            count++;
+                            if(count==snap.numChildren())
+                            {
+                              if(phonefound==1){
+                                Swal.fire(
+                                  'Phone number already in use',
+                                  '',
+                                  'error',
+                                )
+                                }else{
+                                  emailid = document.getElementById("email").value;
+                                  if(emailid.includes("@")){
+                                    var spl = emailid.split('@');
+                                    if(spl[1].includes('.')){
+                                      snap.forEach(function(emailsnapshot){
+                                        if(emailid==emailsnapshot.val().email){
+                                          emailfound = 1;
+                                        }
+                                        counte++;
+                                        if(counte==snap.numChildren()){
+                                          if(emailfound==1){
+                                            Swal.fire(
+                                              'Email already in use',
+                                              '',
+                                              'error',
+                                            )
+                                          }else{
+                                            if(username.length<5 || username.length>15){
+                                              Swal.fire(
+                                                'Username characters must be between 5 to 15.',
+                                                '',
+                                                'error',
+                                              )
+                                            }else{
+                                              if(username.charAt(0) >= '0' && username.charAt(0) <= '9'){
+                                                Swal.fire('Invalid username',
+                                                  'Username must not start with a number.',
+                                                  'error')
+                                              }else{
+                                                if(format.test(username) || username.includes(" "))
+                                                {
+                                                  Swal.fire('Invalid username',
+                                                  'Username should not contain special characters except _(Underscore) and .(Dot).',
+                                                  'error')
+                                                }else{
+                                              snap.forEach(function(usernamesnapshot){
+                                                if(username == usernamesnapshot.val().username){
+                                                  usernamefound=1;
+                                                }
+                                                countu++;
+                                                if(countu==snap.numChildren()){
+                                                  if(usernamefound==1)
+                                                  {
+                                                    Swal.fire(
+                                                      'Username exists.',
+                                                      'Choose another username',
+                                                      'error',
+                                                    )
+                                                  }else{
+                                                    if($( "#acc_for option:selected" ).text() == "Select"){
+                                                        Swal.fire(
+                                                        'Choose account type',
+                                                        '',
+                                                        'error',
+                                                      )
+                                                    }else{
+                                                      submitPhoneNumberAuth();
+                                                    }
+                                                  }
+                                                }
+                                              })
+                                            }
+                                          }
+                                            }
+                                          }
+                                        }
+                                      })
+                                    }else{
+                                      Swal.fire(
+                                        'Invalid E-Mail address',
+                                        '',
+                                        'error'
+                                      )
+                                    }
+                                  }else{
+                                    Swal.fire(
+                                      'Invalid E-Mail address',
+                                      '',
+                                      'error'
+                                      )
+                                  }
+                              }
+                            }
+                          })
+
+                        })
+                        }else{
+                          Swal.fire(
+                            'Invalid E-Mail address',
+                            '',
+                            'error'
+                          )
+                        }
+                      }else{
+                        Swal.fire(
+                          'Invalid E-Mail address',
+                          '',
+                          'error'
+                          )
+                      }
+            
+          }else{
+              Swal.fire(
+              'Invalid Phone number',
+              'Phone number must contain 10 digit.',
+              'error',
+            )
+          }
+        }else{
+          Swal.fire(
+              'All fields are mandatory',
+              '',
+              'error',
+            )
+        }
+      }
+
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           console.log("USER LOGGED IN");
-          window.location.href = "profile.html";
+          // window.location.href = "profile.html";
         } else {
           $('#phone-input-div').show();
           console.log("USER NOT LOGGED IN");
@@ -162,13 +345,41 @@
       // Takes the value from the 'code' input and submits the code to verify the phone number
       // Return a user object if the authentication was successful, and auth is complete
       function submitPhoneNumberAuthCode() {
+        var icon = ["https://image.flaticon.com/icons/svg/1165/1165817.svg" , "https://image.flaticon.com/icons/svg/2865/2865484.svg","https://image.flaticon.com/icons/svg/2893/2893152.svg","https://image.flaticon.com/icons/svg/806/806647.svg"]
+        var random = Math.floor((Math.random() * 4));
+
         var code = document.getElementById("code").value;
         confirmationResult
           .confirm(code)
           .then(function(result) {
             var user = result.user;
             console.log(user);
-            window.location.href = "index.html";
+            var phoneNumber = document.getElementById("phoneNumber").value;
+            var emailid = document.getElementById("email").value;
+            var username = document.getElementById("username").value;
+            var g = $( "#acc_for option:selected" ).text();
+            firebase.database().ref('user/'+user.uid).set(
+                {
+                  "bio" : "No artist tolerates reality",
+                  "email" : emailid,
+                  "phone" : phoneNumber,
+                  "profilePic" : icon[random],
+                  "username" : username,
+                  "gender" : g,
+                  "addressupdated" : 0,
+                  "accountdetailsupdated": 0,
+                  "banned" : 0
+                }
+              );
+
+            Swal.fire(
+              'Congrats!',
+              'Your account has been created. Redirecting to home....',
+              'success'
+            )
+            setTimeout(function () {
+                window.location.href = "index.html";
+            }, 3000);
           })
           .catch(function(error) {
             console.log(error);

@@ -2,18 +2,21 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <link rel="icon" href="img/heart.svg">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="icon" href="img/fav.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-database.js"></script>
 
     <script type="text/javascript" src="js/firebase.js"></script>
+    <script type="module" src="js/firebase/firebase.js"></script>
+    <script type="module" src="js/firebase/db.js"></script>
   <style type="text/css">
+
     hr.sep-3::after {
       content: '§';
       display: inline-block;
@@ -31,29 +34,235 @@
       flex-wrap: wrap;
       align-content: center;
     }
+    .at-section__title {
+   margin: 0 0 70px;
+   color: #000;
+   font-family: 'Roboto', sans-serif;
+   font-size: 3.5rem;
+   font-weight: 300;
+   line-height: 2.625rem;
+   text-align: center;
+}
+ .at-grid {
+   
+   /*border: 1px solid #e2e9ed;*/
+}
+.at-column{
+  border-radius: 30px;
+  cursor: pointer;
+
+}
+ .at-grid[data-column="1"] .at-column {
+   width: 100%;
+   max-width: 100%;
+   min-width: 100%;
+   flex-basis: 100%;
+}
+}
+ .at-grid[data-column="2"] .at-column {
+   width: 50%;
+   max-width: 50%;
+   min-width: 50%;
+   flex-basis: 50%;
+}
+ .at-grid[data-column="3"] .at-column {
+   width: 33.3333333333%;
+   max-width: 33.3333333333%;
+   min-width: 33.3333333333%;
+   flex-basis: 33.3333333333%;
+}
+ .at-grid[data-column="4"] .at-column {
+   width: 25%;
+   max-width: 25%;
+   min-width: 25%;
+   flex-basis: 25%;
+}
+ .at-grid[data-column="5"] .at-column {
+   width: 20%;
+   max-width: 20%;
+   min-width: 20%;
+   flex-basis: 20%;
+}
+ .at-grid[data-column="6"] .at-column {
+   width: 16.6666666667%;
+   max-width: 16.6666666667%;
+   min-width: 16.6666666667%;
+   flex-basis: 16.6666666667%;
+}
+ .at-grid[data-column="7"] .at-column {
+   width: 14.2857142857%;
+   max-width: 14.2857142857%;
+   min-width: 14.2857142857%;
+   flex-basis: 14.2857142857%;
+}
+ .at-grid[data-column="8"] .at-column {
+   width: 12.5%;
+   max-width: 12.5%;
+   min-width: 12.5%;
+   flex-basis: 12.5%;
+}
+ .at-grid[data-column="9"] .at-column {
+   width: 11.1111111111%;
+   max-width: 11.1111111111%;
+   min-width: 11.1111111111%;
+   flex-basis: 11.1111111111%;
+}
+ .at-column {
+   z-index: 0;
+   position: relative;
+   background: #fff;
+   box-shadow: 0 0 0 1px #e2e9ed;
+   padding: 10px;
+   box-sizing: border-box;
+   transition: box-shadow 0.2s ease, transform 0.2s ease, z-index 0s 0.2s ease;
+}
+ .at-column:before {
+   content: "";
+   display: block;
+   padding-top: 100%;
+}
+ .at-column:hover {
+   z-index: 1;
+   box-shadow: 0 8px 50px rgba(0, 0, 0, 0.2);
+   transform: scale(1.05);
+   transition: box-shadow 0.2s ease, transform 0.2s ease, z-index 0s 0s ease;
+}
+ .at-column:hover .at-social {
+   margin: 16px 0 0;
+   opacity: 1;
+}
+ @media (max-width: 800px) {
+   .at-column {
+     width: 50% !important;
+     max-width: 50% !important;
+     min-width: 50% !important;
+     flex-basis: 50% !important;
+  }
+}
+ @media (max-width: 600px) {
+   .at-column {
+     width: 100% !important;
+     max-width: 100% !important;
+     min-width: 100% !important;
+     flex-basis: 100% !important;
+  }
+}
+ .at-user {
+   
+   left: 0;
+   width: 100%;
+   transform: translate(0, -50%);
+   text-align: center;
+}
+ .at-user__avatar {
+   width: 98px;
+   height: 98px;
+   border-radius: 100%;
+   margin: 0 auto 20px;
+   overflow: hidden;
+}
+ .at-user__avatar img {
+   display: block;
+   width: 100%;
+   max-width: 100%;
+}
+ .at-user__name {
+   color: #313435;
+   font-family: 'Roboto', sans-serif;
+   font-size: 1.5rem;
+   font-weight: 500;
+   line-height: 2.625rem;
+}
+ .at-user__title {
+   color: #6f808a;
+   font-family: 'Roboto', sans-serif;
+   font-size: 0.875rem;
+   line-height: 2.375rem;
+}
+ .at-social {
+   margin: 0 0 -18px;
+   opacity: 0;
+   transition: margin 0.2s ease, opacity 0.2s ease;
+}
+ .at-social__item {
+   display: inline-block;
+   margin: 0 10px;
+}
+ .at-social__item a {
+   display: block;
+}
+ .at-social__item svg {
+   fill: #515f65;
+   display: block;
+   height: 18px;
+   transition: fill 0.2s ease;
+}
+ .at-social__item svg:hover {
+   fill: #788d96;
+}
+ 
+ .container {
+   max-width: 1170px;
+   width: 100%;
+   margin: 100px auto;
+   padding: 0 20px;
+   box-sizing: border-box;
+   transform-origin: top center;
+   transform: scale(0.8);
+}
+@media (min-width: 992px){
+  body {
+      margin-left: 20%;
+      margin-right: 20%;
+  }
+}
   </style>
 
   <script type="text/javascript">
 
-    var images = [];
-    var imageid = [];
-    var index = 0;
-    var userids = [];
+
+  
+
+// <<<<<<< HEAD
+// =======
+  
+//     // var database = firebase.database();
+  
+  
+// >>>>>>> 25f164e31bb87669a51090ab7e3d45ce62d74756
+   
 
     function getitems()
     {
+       var images = [];
+        var imageid = [];
+        var index = 0;
+        var userids = [];
+      $("#grid-ul").html("")
+// <<<<<<< HEAD
           var database = firebase.database();
 
+// =======
+// >>>>>>> 25f164e31bb87669a51090ab7e3d45ce62d74756
         var dbref = database.ref('items');
         dbref.on("value", function(child){
+
           child.forEach(function(snapshot){
-            images.push(snapshot.val().featuredimage);
-            imageid.push(snapshot.val().itemid);
-            userids.push(snapshot.val().userids);
+            // if(snapshot.val().status==2)
+            // {
+              images.push(snapshot.val().featuredimage);
+              imageid.push(snapshot.val().itemid);
+              userids.push(snapshot.val().byUser);
+            // }
+            if(images.length==0){
+              $("#grid-ul").html("<center>Inventroy is empty</center>")
+            }else{
+              $("#grid-ul").html("")
+            }
           });
           images.forEach(function(entry) {
               console.log(entry);
-              $("#grid-ul").append('<li onclick="goto(\'itempage.html\', \''+imageid[index]+ '\', \''+entry+ '\', \''+userids[index]+ '\')" class=\'col\' ><img src=' + entry +'></li>');
+              $("#grid-ul").append('<li onclick="goto(\'itempage.html\', \''+imageid[index]+ '\', \''+entry+ '\', \''+userids[index]+ '\')"  class=\'center\'><img src=' + entry +'></li>');
               index++;
           });
           setclickevent();
@@ -68,6 +277,7 @@
   <title>Artbid - Home</title>
 </head>
 <body>
+  
 
 
 <div class="topbar">
@@ -96,31 +306,37 @@
   </div>  
   </div>
     <hr class="sep-3"/>
-
-
-        
-
-
     <span id="top-btns">
       
-      <button class="box" onclick="alert('Trending')">Trending</button>
-      <button class="box" onclick="alert('Saved')">Saved</button>
-      <button class="box" onclick="showupcomingdialog()">Upcoming</button>
+
+      
+      <button type="button" class="btn btn-outline-primary" onclick="getitems()">Trending</button>
+      <button type="button" class="btn btn-outline-info" onclick="precheckauth(1)">Saved</button>
+      <button type="button" class="btn btn-outline-success" onclick="precheckauth(2)">Following</button>
 
     </span>
     <span id="search-btns">
       
-      <button class="box" onclick="alert('Users')">Users</button>
-      <button class="box" onclick="alert('Items')">Items</button>
+      <!-- <button id="user-btn" class="box" onclick="showusers()">Users</button>
+      <button id="items-btn" class="box" onclick="showitems()">Items</button> -->
 
     </span>
 
-  <div id="imagegrid">
+  <div id="imagegrid" class="d-flex justify-content-center">
     <ul id="grid-ul">
 
         
     </ul>
   </div>
+
+  <div  class="container">
+  <div class="at-grid" data-column="3" id="user-container">
+
+</div>
+
+</div>
+
+  
 <!-- <div class="container">
   <div class="dash uno"></div>
   <div class="dash dos"></div>
@@ -141,6 +357,33 @@
    
 
 <script type="text/javascript">
+
+  // var form = document.createElement("form"); 
+  // form.setAttribute("method", "post"); 
+  // form.setAttribute("action", "https://artbid.herokuapp.com/gateway.php");
+    
+    
+  //   var hiddenField = document.createElement("input");  hiddenField.setAttribute("type", "hidden"); 
+  //   hiddenField.setAttribute("name", "message"); 
+  //   hiddenField.setAttribute("value", "val"); 
+  //   form.appendChild(hiddenField); document.body.appendChild(form);
+  //   form.submit();
+
+
+  $('#user-btn').prop('disabled',true);
+
+  // function showusers(){
+  //   $('#items-btn').prop('disabled',false);
+  //   $('#user-btn').prop('disabled',true);
+  //   $('#user-container').show()
+  //   document.getElementById("grid-ul").style.display = "none"
+  // }
+  // function showitems(){
+  //   $('#items-btn').prop('disabled',true);
+  //   $('#user-btn').prop('disabled',false);
+  //   $('#user-container').hide()
+  //   document.getElementById("grid-ul").style.display = "table"
+  // }
 
   $(document).ready(function() {
         $("body").on("contextmenu",function(){
@@ -174,23 +417,65 @@
   $(document).ready(function(){
       $("#search-input").on("input", function(){
             var x = document.getElementById("grid-ul");
+            var user = [];
+            var userkey = [];
+            var index=0;
 
           // Print entered value in a div box
           if($(this).val()!="")
           {
+            $("#user-container").html('')
+            firebase.database().ref('user').on("value", function(child){
+                child.forEach(function(snapshot){
+                  var s = $('#search-input').val()
+                  if(snapshot.val().username.toLowerCase().includes(s.toLowerCase())){
+                    user.push(snapshot.val())
+                    userkey.push(snapshot.key)
+                  }
+                })
+                user.forEach(function(u){
+                  console.log(u)
+
+                  $("#user-container").append("<div class=\"at-column\"><div class=\"at-user\" onclick=\"navtoprofile('"+userkey[index]+"','"+u.username+"','"+u.profilePic+"','"+u.bio+"')\"><div class=\"at-user__avatar\"><img src="+u.profilePic+"></div><div class=\"at-user__name\">"+u.username+"</div><div class=\"at-user__title\">CEO &amp; Co-Founder</div></div></div>")  
+                                    index++;
+                
+                });
+            });
               x.style.display = "none";
               document.getElementById("top-btns").style.display = "none";
               document.getElementById("search-btns").style.display = "table";
+              document.getElementById("user-container").style.display = "flex";
+
+
               
           }else{
               document.getElementById("top-btns").style.display = "table";
               document.getElementById("search-btns").style.display = "none";
-            x.style.display = "table";
+              x.style.display = "table";
+              document.getElementById("user-container").style.display = "none";
+
   
           }
       });
   });
 
+  function navtoprofile(uid,username,profilePic,bio){
+    localStorage.setItem("uid",uid);
+    localStorage.setItem("username",username);
+    localStorage.setItem("profilePic",profilePic);
+    localStorage.setItem("bio",bio);
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          if(user.uid==uid){
+            goto('profile.html')
+          }else{
+            goto('showprofile.html')
+          }
+        }else{
+          goto('showprofile.html')
+        }
+      });
+  }
   
 
 
@@ -215,12 +500,12 @@
   function goto(link,imageid,furl,userid){
       var delayInMilliseconds = 500; //1 second
       setTimeout(function() {
-        window.location.href = link;
         localStorage.setItem("imageid",imageid);
         localStorage.setItem("furl",furl);
         localStorage.setItem("userid",userid);
 
-
+        
+        window.location.href = link;
       }, delayInMilliseconds);
     }
   
@@ -298,7 +583,282 @@
         'info',
       )
   }
+
+  function precheckauth(type){
+
+    getfollowingitems(user.uid)
+
+
+    // firebase.auth().onAuthStateChanged(function(user) {
+    //     if (user) {
+    //       if(type==1)
+    //       {
+    //         getsaveditems(user.uid)
+    //       }else{
+    //         getfollowingitems(user.uid)
+    //       }
+    //     } else {
+    //       Swal.fire(
+    //         'Login to proceed',
+    //         '',
+    //         'info',
+    //       )
+
+    //     }
+    //   });
+  }
+  function getfollowingitems(uid){
+    $("#grid-ul").html("")
+        var saveditems = []
+        var ids = [];
+        var count = 0;
+         var database = firebase.database();
+            var dbref = database.ref('saveditems').child(uid);
+            dbref.on("value", function(child){
+              child.forEach(function(snapshot){
+                ids.push(snapshot.val());
+              });
+              ids = ids.reverse();
+              ids.forEach(function(entry){
+                database.ref('items').child(entry).on("value", function(snapshot){
+                    saveditems.push(snapshot.val())
+                    count++;
+                    console.log(snapshot.val())
+                    if(count==ids.length){
+                      saveditems.forEach(function(entry) {
+                          console.log(entry);
+                          $("#grid-ul").append('<li onclick="goto(\'itempage.html\', \''+entry.itemid+ '\', \''+entry.featuredimage+ '\', \''+entry.itemid+ '\')" class=\'col\' ><img src=' + entry.featuredimage +'></li>');
+                          index++;
+                      });
+                      setclickevent();
+                    }
+                })
+              })
+            });
+      }
+
+  function getsaveditems(uid){
+    $("#grid-ul").html("")
+    var saveditems = []
+    var ids = [];
+    var count = 0;
+     var database = firebase.database();
+        var dbref = database.ref('saveditems').child(uid);
+        dbref.on("value", function(child){
+          child.forEach(function(snapshot){
+            ids.push(snapshot.val());
+          });
+          ids = ids.reverse();
+          ids.forEach(function(entry){
+            database.ref('items').child(entry).on("value", function(snapshot){
+                saveditems.push(snapshot.val())
+                count++;
+                console.log(snapshot.val())
+                if(count==ids.length){
+                  saveditems.forEach(function(entry) {
+                      console.log(entry);
+                      $("#grid-ul").append('<li onclick="goto(\'itempage.html\', \''+entry.itemid+ '\', \''+entry.featuredimage+ '\', \''+entry.itemid+ '\')" class=\'col\' ><img src=' + entry.featuredimage +'></li>');
+                      index++;
+                  });
+                  setclickevent();
+                }
+            })
+          })
+
+
+          
+          });
+  }
 </script>
 
+<style>
+  .at-section__title {
+   margin: 0 0 70px;
+   color: #000;
+   font-family: 'Roboto', sans-serif;
+   font-size: 3.5rem;
+   font-weight: 300;
+   line-height: 2.625rem;
+   text-align: center;
+}
+ .at-grid {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   background: #fff;
+   /*border: 1px solid #e2e9ed;*/
+}
+.at-column{
+  border-radius: 30px;
+  cursor: pointer;
+
+}
+ .at-grid[data-column="1"] .at-column {
+   width: 100%;
+   max-width: 100%;
+   min-width: 100%;
+   flex-basis: 100%;
+}
+}
+ .at-grid[data-column="2"] .at-column {
+   width: 50%;
+   max-width: 50%;
+   min-width: 50%;
+   flex-basis: 50%;
+}
+ .at-grid[data-column="3"] .at-column {
+   width: 33.3333333333%;
+   max-width: 33.3333333333%;
+   min-width: 33.3333333333%;
+   flex-basis: 33.3333333333%;
+}
+ .at-grid[data-column="4"] .at-column {
+   width: 25%;
+   max-width: 25%;
+   min-width: 25%;
+   flex-basis: 25%;
+}
+ .at-grid[data-column="5"] .at-column {
+   width: 20%;
+   max-width: 20%;
+   min-width: 20%;
+   flex-basis: 20%;
+}
+ .at-grid[data-column="6"] .at-column {
+   width: 16.6666666667%;
+   max-width: 16.6666666667%;
+   min-width: 16.6666666667%;
+   flex-basis: 16.6666666667%;
+}
+ .at-grid[data-column="7"] .at-column {
+   width: 14.2857142857%;
+   max-width: 14.2857142857%;
+   min-width: 14.2857142857%;
+   flex-basis: 14.2857142857%;
+}
+ .at-grid[data-column="8"] .at-column {
+   width: 12.5%;
+   max-width: 12.5%;
+   min-width: 12.5%;
+   flex-basis: 12.5%;
+}
+ .at-grid[data-column="9"] .at-column {
+   width: 11.1111111111%;
+   max-width: 11.1111111111%;
+   min-width: 11.1111111111%;
+   flex-basis: 11.1111111111%;
+}
+ .at-column {
+   z-index: 0;
+   position: relative;
+   background: #fff;
+   box-shadow: 0 0 0 1px #e2e9ed;
+   padding: 10px;
+   box-sizing: border-box;
+   transition: box-shadow 0.2s ease, transform 0.2s ease, z-index 0s 0.2s ease;
+}
+ .at-column:before {
+   content: "";
+   display: block;
+   padding-top: 100%;
+}
+ .at-column:hover {
+   z-index: 1;
+   box-shadow: 0 8px 50px rgba(0, 0, 0, 0.2);
+   transform: scale(1.05);
+   transition: box-shadow 0.2s ease, transform 0.2s ease, z-index 0s 0s ease;
+}
+ .at-column:hover .at-social {
+   margin: 16px 0 0;
+   opacity: 1;
+}
+ @media (max-width: 800px) {
+   .at-column {
+     width: 50% !important;
+     max-width: 50% !important;
+     min-width: 50% !important;
+     flex-basis: 50% !important;
+  }
+}
+ @media (max-width: 600px) {
+   .at-column {
+     width: 100% !important;
+     max-width: 100% !important;
+     min-width: 100% !important;
+     flex-basis: 100% !important;
+  }
+}
+ .at-user {
+   position: absolute;
+   top: 50%;
+   left: 0;
+   width: 100%;
+   transform: translate(0, -50%);
+   text-align: center;
+}
+ .at-user__avatar {
+   width: 98px;
+   height: 98px;
+   border-radius: 100%;
+   margin: 0 auto 20px;
+   overflow: hidden;
+}
+ .at-user__avatar img {
+   display: block;
+   width: 100%;
+   max-width: 100%;
+}
+ .at-user__name {
+   color: #313435;
+   font-family: 'Roboto', sans-serif;
+   font-size: 1.5rem;
+   font-weight: 500;
+   line-height: 2.625rem;
+}
+ .at-user__title {
+   color: #6f808a;
+   font-family: 'Roboto', sans-serif;
+   font-size: 0.875rem;
+   line-height: 2.375rem;
+}
+ .at-social {
+   margin: 0 0 -18px;
+   opacity: 0;
+   transition: margin 0.2s ease, opacity 0.2s ease;
+}
+ .at-social__item {
+   display: inline-block;
+   margin: 0 10px;
+}
+ .at-social__item a {
+   display: block;
+}
+ .at-social__item svg {
+   fill: #515f65;
+   display: block;
+   height: 18px;
+   transition: fill 0.2s ease;
+}
+ .at-social__item svg:hover {
+   fill: #788d96;
+}
+ body {
+   
+}
+ .container {
+   max-width: 1170px;
+   width: 100%;
+   margin: 100px auto;
+   padding: 0 20px;
+   box-sizing: border-box;
+   transform-origin: top center;
+   transform: scale(0.8);
+}
+ 
+</style>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
 </body>
+
 </html>

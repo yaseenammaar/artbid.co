@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="icon" href="img/heart.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+   <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-database.js"></script>
+
+<!-- <<<<<<< HEAD -->
+    <script type="text/javascript" src="js/firebase.js"></script>
+<!-- ======= -->
+    <script type="module" src="js/firebase/firebase.js"></script>
+    <script type="module" src="js/firebase/db.js"></script>
+<!-- >>>>>>> 25f164e31bb87669a51090ab7e3d45ce62d74756 -->
+  <style type="text/css">
+    hr.sep-3::after {
+      content: '§';
+      display: inline-block;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(60deg);
+      transform-origin: 50% 50%;
+      padding: 1rem;
+      background-color: white;
+    }
+    #imagegrid ul{
+       width: 100%;
+      height: auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+    }
+  </style>
+
+  <script type="text/javascript">
+
+  </script>
+
+
+  <title>Artbid - Failed</title>
+</head>
+<body>
+
+
+<div class="topbar">
+    <span id="main-img" onclick="goto('index.html')"></span>
+    <span id="right-icons">
+      
+      <span id="bid-icon" onclick="goto('activebids.html')"></span>
+      <span id="profile-icon" onclick="checkauth()"></span>
+
+    </span>
+  </div>  
+  </div>
+    <hr class="sep-3"/>
+    <center>
+
+      <div>
+        <h3>Payment failed for your order.</h3>
+        <button onclick="window.location.href = 'index.html';">Back to home</button>
+
+      </div>
+    </center>
+
+    
+<!-- <div class="container">
+  <div class="dash uno"></div>
+  <div class="dash dos"></div>
+  <div class="dash tres"></div>
+  <div class="dash cuatro"></div>
+</div> -->
+
+  <hr class="sep-3" />
+  <center>
+  <h6 onclick="showiconalert()" style="cursor: pointer;">Icons</h6>
+            <h6>Terms and Conditions | Contact Us | <a href="policy.html">Policy</a> | <a href="about.html">About</a></h6>
+  <h6>Stwpd Makes</h6>
+</center>
+    <div class="ripple-wrap"><div class="ripple"></div></div>
+
+
+
+   
+
+<script type="text/javascript">
+
+          Swal.fire(
+          'Payment Failed',
+          'Your transaction ID #7327874839<br>Amount will be refunded to your bank account in 3-5 business days, if deducted.',
+          'error',
+        )
+         
+
+  document.getElementById("search-btns").style.display = "none";
+
+  
+
+
+  function goto(link){
+        window.location.href = link;
+    }
+  
+
+  function showiconalert(){
+      Swal.fire(
+        'Icons',
+        'Icons made by Freepik from www.flaticon.com',
+        'info',
+      )
+  }
+</script>
+
+</body>
+</html>

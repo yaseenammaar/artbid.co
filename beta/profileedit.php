@@ -59,7 +59,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 </head>
 <body>
-<?php echo 123?>
 
 <div class="topbar">
     <span id="main-img" onclick="goto('index.html')"></span>
@@ -249,8 +248,8 @@ input[type=number]::-webkit-outer-spin-button {
     <script type="text/javascript" src="js/firebase.js"></script>
   
 <script type="text/javascript">
-      // $('#phone-input-div').hide();
-      // $('#code-input-div').hide();
+      $('#phone-input-div').hide();
+      $('#code-input-div').hide();
 
       $('#gender').hide();
 

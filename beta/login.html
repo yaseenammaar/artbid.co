@@ -9,6 +9,8 @@
 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link rel="icon" href="img/heart.svg">
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
   <title>Artbid - Home</title>
     <link href="css/style.css" rel="stylesheet">
 <style type="text/css">
@@ -37,6 +39,9 @@
    outline: none;
    color: dodgerblue;
 }
+.form-group{
+  width: 70%;
+}
 </style>
 
 
@@ -64,7 +69,7 @@
           <span>+91</span>
               <input class="form-field" type="Phone" placeholder="Phone" id="phoneNumber">
           </div>
-           <button class="box" onclick="submitPhoneNumberAuth()" id="phone-submit-btn">Submit</button><br>
+           <button class="box" onclick="checkphonenumber()" id="phone-submit-btn">Submit</button><br><br>
            <span>Don't have account? <a href="register.html">Register here</a></span>
            </div>
            <center>
@@ -92,11 +97,48 @@
 
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-database.js"></script>
     <script type="text/javascript" src="js/firebase.js"></script>
   
 <script type="text/javascript">
       $('#phone-input-div').hide();
       $('#code-input-div').hide();
+
+      function checkphonenumber(){
+        var phoneNumber = document.getElementById("phoneNumber").value;
+        var found = 0;
+        var count = 0;
+        if(phoneNumber.length==10){
+          firebase.database().ref('user/').on("value", function(snap){
+            snap.forEach(function(snapshot){
+              console.log(snapshot.val().phone)
+              if(phoneNumber==snapshot.val().phone){
+                found = 1;
+              }
+              count++;
+              if(count==snap.numChildren())
+              {
+                if(found==1){
+                  submitPhoneNumberAuth()
+                }else{
+                  Swal.fire(
+                    'No user found',
+                    'You must sign up first',
+                    'error',
+                  )
+                }
+              }
+            })
+
+          })
+        }else{
+            Swal.fire(
+            'Invalid Phone number',
+            'Phone number must contain 10 digit.',
+            'error',
+          )
+        }
+      }
 
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {

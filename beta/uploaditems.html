@@ -9,6 +9,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     
   <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -34,6 +36,8 @@
       height: auto;
       box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3);
       border-radius: 5px;
+      
+
     }
     .selected-fimages{
       overflow: hidden;
@@ -50,14 +54,18 @@
     button{
       height: 50px;
     }
-
-
-
-
+    .form-group{
+      width: 50%;
+    }
+    @media screen and (max-width: 767px) {   
+      .form-group{
+        width: 80%;
+      }
+    }
   </style>
 
 </head>
-<body>
+<body id="body">
   
 
 
@@ -79,7 +87,7 @@
 
       <div id="register-form-container">
         <span id="f-span">
-          <img id="featured-image" height="300px" width="180px" class="selected-fimages"><br>
+          <img id="featured-image" height="300px" width="180px" class="selected-fimages" style="object-fit: cover;"><br>
         </span>
         <br>
         <button onclick="clickfselect()">Set Featured Image</button><br>
@@ -111,6 +119,8 @@
               <span>₹</span>
               <input id="bprice" class="form-field" type="number" placeholder="Base price">
           </div>
+          <h6>TAX and charges : %4 of bidding amount. <i onclick="showbreakout()" class="fa fa-info-circle"></i>
+</h6>
           <div class="form-group">
               <span>/</span>
               <input id="ytlink" class="form-field" type="text" placeholder="YouTube Link(Optional)">
@@ -131,10 +141,12 @@
             <label>6PM</label><br>
           <select id="category" required>
             <option disabled selected>Categories</option>
+            <option>Alien</option>
             <option>Art</option>
             <option>Clothing</option>
             <option>Coins/Bills</option>
             <option>Electronics</option>
+            <option>Idea</option>
             <option>Jewellery</option>
             <option>Medal/Trophy</option>
             <option>Stamps</option>
@@ -199,7 +211,10 @@
           <br>
           
          <!-- <button class="box" onclick="startupload()">Submit</button> </center> -->
-          <button class="box" onclick="validateinputs()">Submit</button> </center>
+          <button id="submitbutton" class="box" onclick="validateinputs()">Submit</button> 
+
+          <h4 id="processing" style="display: none;">Uploading... Please wait...</h4>
+          </center>
          <br><br>
 
       </div>
@@ -220,6 +235,30 @@
 
     <script type="text/javascript" src="js/firebase.js"></script>
 <script type="text/javascript">
+
+  $('#body').hide();
+  firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          $('#body').show();
+        } else {
+          goto('login.html')
+        }
+      });
+
+  function showbreakout(){
+    var baseprice = $('#bprice').val();
+    if(baseprice!="")
+    {
+
+    Swal.fire(
+          'Price breakdown',
+            'Base Amount : ' + baseprice +"<br><h6 style=\"color:red; font-size:10px;\">Charges (4%) : (-) " + Math.ceil(parseFloat(baseprice) * 0.04) +"</h6>You will earn : " +  Math.floor(parseFloat(baseprice) * 0.96),
+            'info',
+          )
+  }else{
+    Swal.fire("Enter base amount first","","error")
+  }
+  }
 
   function validateYouTubeUrl(link)
   {
@@ -347,29 +386,6 @@ var featured;
 
    function validateinputs(){
 
-    var dont=0;
-
-    let filefUpload = document.getElementById("uploadfbtn").files;
-    if(filefUpload.length<1){
-      Swal.fire(
-          'Select featured photo',
-            '',
-            'error',
-          )
-      dont = 1;
-    }
-    let fileUpload = document.getElementById("uploadbtn").files;
-    if(fileUpload.length<1){
-      Swal.fire(
-          'Select product photos',
-            '',
-            'error',
-          )
-      dont = 1;
-    }
-
-
-
     var title = $('#title').val();
     var description = $('#description').val();
     var baseprice = $('#bprice').val();
@@ -381,165 +397,177 @@ var featured;
     var state = $( "#state option:selected" ).text();
     var deliverytype = $( "#delivery-type option:selected" ).text();
     var statenamesstr = "All";
-
-
-
-    if (!$("input[name='closingtime']").is(':checked')) {
-      Swal.fire(
-        'Select closing time',
-        '',
-        'error',
-        )
-      dont = 1;
-      }
-
-
-      if(category=='Categories'){
-        Swal.fire(
-          'Select a category',
-          '',
-          'error',
-          )
-        dont = 1;
-      }
-      if(state=='State'){
-        Swal.fire(
-          'Select a state',
-          '',
-          'error',
-          )
-        dont = 1;
-      }
-      if(deliverytype=='Delivery Type'){
-        Swal.fire(
-          'Select delivery type',
-          '',
-          'error',
-          )
-        dont = 1;
-      }
-
-      if(deliverytype=='Only In'){
-        var l = $("input:checkbox[name=statenames]:checked").length;
-        if(l==0){
-          Swal.fire(
-          'Select atleast one state for delivery',
-          '',
-          'error',
-          )
-          dont = 1;
-        }
-        
-      }
-
-      if(!$('#ownership').is(":checked")){
-        Swal.fire(
-          'You must have ownership proof',
-          '',
-          'error',
-          )
-        dont = 1;
-      }
-      if(!$('#agreement').is(":checked")){
-        Swal.fire(
-          'You must accept Terms and Conditions',
-          '',
-          'error',
-          )
-        dont = 1;
-      }
-
-    
-    
-    // if(deliverytype=="Only In"){
-    //   statenamesstr = "";
-    //   $("input:checkbox[name=statenames]:checked").each(function(){
-    //       statenamesstr.append($(this).val() +", ");
-    //   });
-    // }
-    if(title=='' || description=='' || baseprice=='' || madeinyear=='')
-    {
-      Swal.fire(
-          'Invalid submission',
-            'Enter all required inputs',
-            'error',
-          )
-      dont = 1;
-    }
-    if(title.length<10){
-      Swal.fire(
-          'Title length must be atleast 10',
-            '',
-            'error',
-          )
-      dont = 1;
-    }else{
-    }
-
-    if(description.length<40){
-      Swal.fire(
-          'Description length must be atleast 40',
-            '',
-            'error',
-          )
-      dont = 1;
-    }else{
-    }
-
-    if(ytlink.length>0)
-    {
-      var url = $('#ytlink').val();
-          if (url != undefined || url != '') {
-              var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-              var match = url.match(regExp);
-              if (match && match[2].length == 11) {
-              }
-              else {
-                Swal.fire(
-                  'Invalid Link',
-                  'Check Youtube link',
-                  'error',
-                )
-                dont = 1;
-              }
-          }
-    }
-
     var dt = new Date();
     var year = parseInt(dt.getFullYear());
 
-    if(parseInt(madeinyear) > year || parseInt(madeinyear) < 1000){
+    let filefUpload = document.getElementById("uploadfbtn").files;
+    if(filefUpload.length<1){
       Swal.fire(
-          'Invalid made year',
-            'Made year must be between 1000 to ' + year,
+          'Select featured photo',
+            '',
             'error',
           )
-      dont = 1;
     }else{
+      let fileUpload = document.getElementById("uploadbtn").files;
+      if(fileUpload.length<1){
+        Swal.fire(
+            'Select product photos',
+              '',
+              'error',
+            )
+      }else{
+        if (!$("input[name='closingtime']").is(':checked')) {
+        Swal.fire(
+          'Select closing time',
+          '',
+          'error',
+          )
+        }else{
+          if(category=='Categories'){
+            Swal.fire(
+              'Select a category',
+              '',
+              'error',
+              )
+          }else{
+            if(state=='State'){
+              Swal.fire(
+                'Select a state',
+                '',
+                'error',
+                )
+            }else{
+              if(deliverytype=='Delivery Type'){
+                Swal.fire(
+                  'Select delivery type',
+                  '',
+                  'error',
+                  )
+              }else{
+                if(deliverytype=='Only In' || deliverytype=='All India'){
+                  var l = $("input:checkbox[name=statenames]:checked").length;
+                  if(deliverytype=="All India"){
+                    l=1;
+                  }
+                  if(l==0){
+                    Swal.fire(
+                    'Select atleast one state for delivery',
+                    '',
+                    'error',
+                    )
+                  }else if(l>0 || deliverytype=='All India'){
+                    statenamesstr = "Only in";
+                    if(!$('#ownership').prop('checked')){
+                      Swal.fire(
+                        'You must have ownership proof',
+                        '',
+                        'error',
+                        )
+                    }else{
+                      if(!$('#agreement').is(":checked")){
+                        Swal.fire(
+                          'You must accept Terms and Conditions',
+                          '',
+                          'error',
+                          )
+                      }else{
+                        if(title.length<10){
+                              Swal.fire(
+                                  'Title length must be atleast 10',
+                                    '',
+                                    'error',
+                                  )
+                            }else{
+                              if(description.length<40){
+                                Swal.fire(
+                                    'Description length must be atleast 40',
+                                      '',
+                                      'error',
+                                    )
+                              }else{
+                                
+                                  if(baseprice<1)
+                                  {
+                                    Swal.fire(
+                                      'Minimum base price is ₹1',
+                                      '',
+                                      'error',
+                                        )
+                                  }else{
+                                    var madeinyear = $('#madeinyear').val();
+                                    var dt = new Date();
+                                    var year = parseInt(dt.getFullYear());
+                                    if(madeinyear=="" || parseInt(madeinyear) > year || parseInt(madeinyear) < 1000){
+                                      Swal.fire(
+                                          'Invalid made year',
+                                            'Made year must be between 1000 to ' + year,
+                                            'error',
+                                          )
+                                    }else{
+                                      if(ytlink.length>0)
+                                      {
+                                        var url = $('#ytlink').val();
+                                            if (url != undefined || url != '') {
+                                                var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                                                var match = url.match(regExp);
+                                                if (match && match[2].length == 11) {
+                                                  firebase.auth().onAuthStateChanged(function(user) {
+                                                    if (user) {
+                                                      startupload()
+                                                    } else {
+                                                      goto('login.html')
+                                                    }
+                                                  });
+                                                }
+                                                else {
+                                                  Swal.fire(
+                                                    'Invalid Link',
+                                                    'Check Youtube link',
+                                                    'error',
+                                                  )
+                                                }
+                                            }
+                                      }else{
+                                            startupload()
+                                      }
+                                    }
+                                  }
+                              }
+                            }
+                          }
+                      }
+                    }
+                }
+              }
+            }
+          }
+        }
+      }
     }
+    
+    // if(title=='' || description=='' || baseprice=='' || madeinyear=='')
+    // {
+    //   Swal.fire(
+    //       'Invalid submission',
+    //         'Enter all required inputs',
+    //         'error',
+    //       )
+    //   dont = 1;
+    // }
     // if(validateYouTubeUrl(ytlink)){
     //   return true;
     // }else{
       
     //   return false;
     // }
-    // if(baseprice>1000000)
-    // {
-    //   Swal.fire(
-    //     'Maximum base price is 10,00,000',
-    //     '',
-    //     'error',
-    //       )
-    //   dont = 1;
-    // }
-
-   
-    startupload()
     
    }
 
-
+  $('#processing').hide();
   function startupload(){
+
+    $('#processing').show();
+    $('#submitbutton').prop('disabled', true);
 
     var imageUrls = [];
     var title = $('#title').val();
@@ -553,20 +581,21 @@ var featured;
     var state = $( "#state option:selected" ).text();
     var deliverytype = $( "#delivery-type option:selected" ).text();
     var statenamesstr = "All";
-    // if(deliverytype=="Only In"){
-    //   statenamesstr = "";
-    //   $("input:checkbox[name=statenames]:checked").each(function(){
-    //       statenamesstr.append($(this).val() +", ");
-    //   });
-    // }
+    if(deliverytype=="Only In"){
+      statenamesstr = "";
+      $("input:checkbox[name=statenames]:checked").each(function(){
+          statenamesstr += $(this).val() +", ";
+          console.log("Selected States : " + statenamesstr);
+      });
+    }
 
     let r = Math.random().toString(36).substring(7);
     let fileUpload = document.getElementById("uploadfbtn");
     let firstFile = fileUpload.files[0]
     let extension = "."+fileUpload.value.split('.').pop()
     console.log(extension)
-    // let userid = firebase.auth().currentUser.uid;
-    let userid = "test";
+    let userid = firebase.auth().currentUser.uid;
+    // let userid = "test";
     let storageRef = firebase.storage().ref('photos/' + userid + '/photof'+r+extension);
     let uploadTask = storageRef.put(firstFile).then(snapshot => {
       let url = snapshot.ref.getDownloadURL();
@@ -618,6 +647,8 @@ var featured;
                             state:state,
                             availablestate:statenamesstr
                           };
+
+                          firebase.database().ref('useritems/'+userid).child(itemkey).set(itemkey)
                           firebase.database().ref('items/'+itemkey).set(firebasemodal);
                           Swal.fire(
                             'Product Uploaded',
@@ -636,6 +667,11 @@ var featured;
                     return downloadURL;
                  })
                  .catch(error => {
+                  Swal.fire(
+                            'Uploaded error',
+                            'Please try again',
+                            'error'
+                          )
                     // Use to signal error if something goes wrong.
                     console.log(`Failed to upload file and get link - ${error}`);
                  });;

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -27,11 +28,25 @@
       background-color: white;
     }
 
+    #description{
+      margin-top: -20px;
+      font-size: 1em;
 
+    }
+     
+    .bid-btn{
+      margin-top: -10px;
+      cursor: pointer; 
+    } 
+    
+    #byuser{
+      margin-top: -10px;
+
+    }
+    #price{
+       margin-top: -20px;
+    }
     .product-page{
-
-      height: 400px;
-
       background: white;
         border-radius: 7px 7px 7px 7px;
         /* VIA CSS MATIC https://goo.gl/cIbnS */
@@ -66,19 +81,86 @@
     @media screen and (max-width: 1000px) {   
         #description, #title{
           position: relative;
-          width: 45%;
+          width: 50%;
         }
     }
 
     @media screen and (min-width: 1000px) {      
         #description, #title{
           position: relative;
-          width: 45%;
+          width: 50%;
         }
     } 
     
-    
+    @media only screen and (min-width: 992px) and (max-width: 1152px){
+      .product-page{
+        width: 500px;
+      }
+    } 
+@media only screen and (min-width: 530px) and (max-width: 600px){
+  #phone-input{
+    max-width: 160px;
+    height: 40px;
+  }
+  .bid-btn{
+    width: 100px;
+  }
+}
+@media only screen and (max-width: 720px){
+      .product-image{
+         width: 40%!important;
+      }
+      #price{
+        font-size: 15px;
+       padding-bottom: 6px;
+      }
 
+    } 
+@media only screen and (max-width: 530px){
+  .product-page-container{
+    display: block;
+  }
+  .product-image{
+    display: block;
+    width: 80%!important;
+    margin: 0 auto!important;
+  }
+  .product-page{
+    height: 620px;
+    display: relative;
+  }
+  #product-details{
+    left: 31%;
+    right: 31%;
+  }
+}
+@media only screen and (max-width: 420px){
+  .product-page{
+    height: 600px;
+  }
+  .product-image{
+    width: 100%!important;
+  }
+  #product-details{
+    left: 25%;
+    width: 90%!important;
+  }
+  #price{
+    font-size: 15px;
+  }
+  #phone-input{
+    max-width: 180px
+  }
+  .bid-btn{
+    width: 100px;
+  }
+}
+
+@media only screen and (min-width: 420px) and (max-width: 483px){
+  .product-page{
+    height: 665px;
+  }
+}
     #product-details{
       position: absolute;
       margin: 0 0 0 2% ;
@@ -100,6 +182,10 @@
     h4{
       font-size: 20px;
     }
+    #top-right{
+      float: right;
+      z-index: 1000;
+    }
 
    
   </style>
@@ -107,39 +193,9 @@
 
 </head>
 <body>
-  <script type="text/javascript">
-        var database = firebase.database();
-
-    var imageid = localStorage.getItem("imageid");
-    var furl = localStorage.getItem("furl");
-    var userid = localStorage.getItem("userid");
-    var imgurls = [];
-
-
-    function getitems()
-    {
-        var dbref = database.ref('items').child(imageid);
-        dbref.on("value", function(child){
-          $('#title').html(child.val().title);
-          $('#price').html("<b>₹ " + child.val().b_price + "</b>");
-          $('#description').html(child.val().caption);
-
-          child.forEach(function(snapshot){
-
-          })
-          imgurls = child.val().imgurl;
-
-
-          localStorage.setItem("imgurls",imgurls);
-
-          database.ref('user').child(child.val().byUser).on("value", function(snap){
-                $('#byuser').html("By " + snap.val().username);
-            })
-          });
-        
-    }
-
-    getitems();
+  
+  <script type="text/javascript" src="js/script.js">
+    
 </script>
 
 
@@ -154,22 +210,32 @@
   <hr class="sep-3"/>
 
   <div class="product-page">
-    <span>
-      <img onclick="navtopreview()" class="product-image" id="featuredimagetag">
+    <span class="product-page-container">
+      <img onclick="navtopreview()" class="product-image" id="featuredimagetag" >
     </span>
     <span id="product-details">
-    
-      <h2 id="title"></h2>
-      <h6 onclick="navtoprofile()" id="byuser"></h6>
-      <h4 id="price"><b>₹</i></h4>
-      <h5 id="description"></h5>
-      <div class="form-group" id="phone-input">
+      <h2 id="title" style="width: 60%"></h2><br>
+      <h6 onclick="goto('profile.html')" id="byuser" ></h6><br>
+      <h4 id="price"></h4><br>
+      <h5 id="description" style="width: 60%"></h5><h6 onclick="showmore()">more..</h6>
+      <div class="form-group" id="phone-input" style="width: 60%">
           <span>₹</span>
-              <input class="form-field" type="Phone" placeholder="Next Bid" id="phoneNumber">
+              <input class="form-field" type="number" placeholder="Next Bid" id="bidamount">
           </div>
-      <button>Bid Now</button>
+          <h6 id="nextbidtext"></h6><br>
+      <button class="bid-btn" onclick='bid()'>Bid Now</button>
+
     </span>
+    <span id="top-right">
+      <h6 id="closingdate"></h6>
+      <button id="save-btn" onclick="save()">Save</button>
+    </span>
+
+
+
   </div>
+<!--   y&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;&#x0306;
+ -->
   <br><br>
     <hr class="sep-3"/>
     <center>
@@ -181,117 +247,8 @@
 
 
 <script type="text/javascript">
+    $("#featuredimagetag").attr("src",furl);
 
-  $("#featuredimagetag").attr("src",furl);
-
-  function navtopreview(){
-    if(screen.width>800)
-    {
-      goto('preview.html');
-    }else{
-      goto('mpreview.html');
-    }
-  }
-
-  function navtoprofile(){
-    firebase.auth().onAuthStateChanged((user) => {
-      if(userid == user){
-        goto('profile.html');
-      }else{
-        goto('showprofile.html')
-      }
-    });
-  }
-
-  function checkauth(){
-    window.location.href = 'profile.html';
-  }
-
-
-  function showupcomingdialog(){
-      Swal.fire(
-        'Upcoming!!!',
-        'Told You',
-        'info',
-      )
-  }
-  function goto(link){
-    var delayInMilliseconds = 500; //1 second
-
-
-    setTimeout(function() {
-      window.location.href = link;
-    }, delayInMilliseconds);
-
-    
-  }
-  
-
-
-  function showResult(str) {
-    if (str.length==0) {
-      document.getElementById("livesearch").innerHTML="";
-      document.getElementById("livesearch").style.border="0px";
-      return;
-    }
-    document.getElementById("livesearch").innerHTML=str;
-    document.getElementById("livesearch").style.border="1px solid #A5ACB2";
-  }
-
-
-  $(document).ready(function() {
-  var ripple_wrap = $('.ripple-wrap'),
-      rippler = $('.ripple'),
-      finish = false,
-      monitor = function(el) {
-        var computed = window.getComputedStyle(el, null),
-            borderwidth = parseFloat(computed.getPropertyValue('border-left-width'));
-        if (!finish && borderwidth >= 1500) {
-          el.style.WebkitAnimationPlayState = "paused";
-          el.style.animationPlayState = "paused";
-          swapContent();
-        }
-        if (finish) {
-          el.style.WebkitAnimationPlayState = "running";
-          el.style.animationPlayState = "running";
-          return;
-        } else {
-          window.requestAnimationFrame(function() {monitor(el)});
-        }
-      };
-  
-  storedcontent = $('#content-2').html();
-  $('#content-2').remove();
-  
-  rippler.bind("webkitAnimationEnd oAnimationEnd msAnimationEnd mozAnimationEnd animationend", function(e){
-    ripple_wrap.removeClass('goripple');
-  });
-
-  $('body').on('click', 'li', function(e) {
-    rippler.css('left', e.clientX + 'px');
-    rippler.css('top', e.clientY + 'px');
-    e.preventDefault();
-    finish = false;
-    ripple_wrap.addClass('goripple');
-    window.requestAnimationFrame(function() {monitor(rippler[0])});
-    
-    
-  });
-
-  
-  
- 
-  function swapContent() {
-      var newcontent = $('#content-area').html();
-      $('#content-area').html(storedcontent);
-      storedcontent = newcontent;
-      // do some Ajax, put it in the DOM and then set this to true
-      setTimeout(function() {
-        finish = true;
-      },10);
-  }
-  
-});
 </script>
 
 </body>

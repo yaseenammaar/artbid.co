@@ -3,6 +3,9 @@
 <head>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
   <link rel="icon" href="img/heart.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
   <title>Artbid - Home</title>
@@ -401,6 +404,12 @@ h6{
         transform: rotate(-360deg);
       }
     }
+    #displaypic {
+      border-radius: 50%;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+
+    }
 
   </style>
 
@@ -422,41 +431,99 @@ h6{
 
         
       <center>
-      <img src="" width="100px" height="100px">
-
+      <img src="" id="displaypic" width="100px" height="100px">
       <br><br>
-      <button class="box" onclick="goto('profileedit.html')">Edit Profile</button>
-      <button class="box" onclick="logout()">Log Out</button>
+      <span id="username"></span><br>
+      <span id="bio"></span><br>
+      <span id="fcount"></span><br>
 
+      <br>
+      <button id="followbtn" class="box" onclick="followthis()">Follow</button>
       </center>
     <span id="top-btns">
-      
-
     </span>
 
 
 <ul id="grid-ul">
-  <li><img src="https://i.etsystatic.com/15285954/r/il/d302ac/1645649674/il_570xN.1645649674_trta.jpg"></li>
-  <li><img src="https://moneydotcomvip.files.wordpress.com/2018/02/180209-olympic-medal-worth.jpg"></li>
-  <li><img src="https://image.cnbcfm.com/api/v1/image/101415692-olympicmedals2.jpg?v=1392320578&w=1600&h=900"></li>
-  <li><img src="https://thearabweekly.com/sites/default/files/styles/article_image_800x450_/public/2019-08/The-various-phases-of-the-evolution-of-Arabic-calligraphy-can-be-seen-at-the-Sharjah-Calligraphy-Museum-Courtesy-Sharjah-Museums-Authority.jpg?itok=DsEMGpkY"></li>
-  <li><img src="https://static.dezeen.com/uploads/2017/10/Olympic-Winter-Games-2018-Medals-by-Pyeong-Chang_dezeen_sq1.jpg"></li>
-  <li><img src="https://i0.wp.com/www.swimmingworldmagazine.com/news/wp-content/uploads/2015/07/2016-olympic-torch.jpg?fit=1300%2C1029&ssl=1"></li>
-  <li><img src="https://image.cnbcfm.com/api/v1/image/101415692-olympicmedals2.jpg?v=1392320578&w=1600&h=900"></li>
-  <li><img src="https://www.cacciapescaarcieriamassi.com/shop/image/cache/data/armi%20nuove/DA%20ANL136/ANL146H-800x800.jpg"></li>
-  <li><img src="https://i.etsystatic.com/15285954/r/il/d302ac/1645649674/il_570xN.1645649674_trta.jpg"></li>
-  <li><img src="https://moneydotcomvip.files.wordpress.com/2018/02/180209-olympic-medal-worth.jpg?quality=85"></li>
-  <li><img src="https://i0.wp.com/www.swimmingworldmagazine.com/news/wp-content/uploads/2015/07/2016-olympic-torch.jpg?fit=1300%2C1029&ssl=1"></li>
-  <li><img src="https://thearabweekly.com/sites/default/files/styles/article_image_800x450_/public/2019-08/The-various-phases-of-the-evolution-of-Arabic-calligraphy-can-be-seen-at-the-Sharjah-Calligraphy-Museum-Courtesy-Sharjah-Museums-Authority.jpg?itok=DsEMGpkY"></li>
 </ul>
   <hr class="sep-3" />
-  <center><h6>Stwpd Makes</h6></center>
-
+  <center>
+    <h6 onclick="showiconalert()" style="cursor: pointer;">Icons</h6>
+              <h6>Terms and Conditions | Contact Us | <a href="policy.html">Policy</a> | <a href="about.html">About</a></h6>
+    <h6>Stwpd Makes</h6>
+  </center>
 <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-database.js"></script>
+
     <script type="text/javascript" src="js/firebase.js"></script>
   
 <script type="text/javascript">
+
+
+
+
+  function getuser(){
+    var database = firebase.database();
+
+    var items = [];
+    var count = 0
+    var myitems = []
+    var index = 0;
+
+    var uid = localStorage.getItem("uid");
+    var username = localStorage.getItem("username");
+    var profilePic = localStorage.getItem("profilePic");
+    var bio = localStorage.getItem("bio");
+      $('#grid-ul').html('<center><h6>'+username+'\'s Inventory is empty</h6></center>');
+
+
+    $("#displaypic").attr("src",profilePic);
+    $("#username").html("@"+username);
+    $("#bio").html(bio)
+
+    database.ref('useritems/'+uid).on("value",function(item){
+          item.forEach(function(sn){
+              $("#grid-ul").html('');
+              items.push(sn.val())
+              console.log(sn.val())
+              console.log(items.length)
+          })
+          items = items.reverse();
+              items.forEach(function(entry){
+                database.ref('items').child(entry).on("value", function(snapshot){
+                    myitems.push(snapshot.val())
+                    count++;
+                    console.log(snapshot.val())
+                    if(count==items.length){
+                      myitems.forEach(function(entry) {
+                          console.log(entry);
+                          $("#grid-ul").append('<li onclick="goto(\'itempage.html\', \''+entry.itemid+ '\', \''+entry.featuredimage+ '\', \''+entry.itemid+ '\')" class=\'col\' ><img src=' + entry.featuredimage +'></li>');
+                          index++;
+                      });
+                    }
+                })
+              })
+        })
+
+
+  }
+  getuser()
+
+  function goto(link,imageid,furl,userid){
+      var delayInMilliseconds = 500; //1 second
+      setTimeout(function() {
+        console.log(imageid)
+        console.log(furl)
+        console.log(userid)
+        window.location.href = link;
+        localStorage.setItem("imageid",imageid);
+        localStorage.setItem("furl",furl);
+        localStorage.setItem("userid",userid);
+      }, delayInMilliseconds);
+    }
+
+
 
 
       // firebase.auth().onAuthStateChanged(function(user) {
@@ -484,20 +551,14 @@ h6{
     window.location.href = 'profile.html';
 
   }
-  function showupcomingdialog(){
-      Swal.fire(
-        'Upcoming!!!',
-        'Told You',
-        'info',
-      )
-  }
+  
   var lis = document.getElementById("grid-ul").getElementsByTagName("li");
   for (i = 0; i < lis.length; i++) {
     lis[i].setAttribute("onclick","window.location.href = \'itempage.html\'");
   }
-  function goto(link){
-    window.location.href = link;
-  }
+  // function goto(link){
+  //   window.location.href = link;
+  // }
   
 
 
@@ -510,6 +571,112 @@ h6{
     document.getElementById("livesearch").innerHTML=str;
     document.getElementById("livesearch").style.border="1px solid #A5ACB2";
   }
+
+  function followthis(){
+    var f = document.getElementById("followbtn").innerHTML
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        var database = firebase.database();
+        var uid = localStorage.getItem("uid");
+        var count = 0;
+        var found = 0;
+        var newkey = database.ref('/').push().key;
+          database.ref('following').child(user.uid).once("value",function(childs){
+            childs.forEach(function(child){
+              count++;
+              if(child.val()==uid){
+                database.ref('following').child(user.uid).child(uid).set(null);
+                database.ref('follower').child(uid).child(user.uid).set(null);
+                found=1;
+              }
+            })
+            if(found==0){
+                  database.ref('following').child(user.uid).child(uid).set(uid);
+                  database.ref('follower').child(uid).child(user.uid).set(user.uid);
+                }
+          })
+      }
+      else{
+        Swal.fire('Login to Follow','','error')
+        }
+      })
+    if(f=='Follow')
+    {
+      showupdated('Following');
+      document.getElementById("followbtn").innerHTML  = 'Unfollow'
+    }else{
+      showupdated('Unfollowed');
+      document.getElementById("followbtn").innerHTML = 'Follow'
+    }
+  }
+  // var uid = localStorage.getItem("uid");
+
+  // firebase.database().ref('following').child('hVRA6NRJC1awMHPjWNrzsWU5awl1').on('value',function(childs){
+  //         childs.forEach(function(event){
+
+  //           console.log('users : ' + event.val())
+  //           if(uid==event.val()){
+  //             document.getElementById("followbtn").innerHTML  = 'Unfollow'
+  //           }
+  //         })
+  //       })
+    getiffollowing();
+
+
+  function getiffollowing(){
+    var uid = localStorage.getItem("uid");
+
+
+    firebase.database().ref('follower/'+uid).on('value',function(childs){
+      $("#fcount").html('<b>0 follower</b>')
+          childs.forEach(function(event){
+            var followerstext = " follower";
+            var fcount = childs.numChildren()
+            if(fcount==undefined){
+              fcount=0;
+            }
+            if(fcount>1)
+            {
+              followerstext += "s";
+            }
+            $("#fcount").html('<br>'+fcount + followerstext+'<br>')
+
+
+          })
+        })
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        firebase.database().ref('following/'+user.uid).on('value',function(childs){
+          childs.forEach(function(event){
+            if(uid==event.val()){
+              document.getElementById("followbtn").innerHTML  = 'Unfollow'
+            }
+          })
+        })
+      }else{
+
+      }
+    })
+  }
+
+  function showupdated(msg){
+        const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        onOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: msg
+      })
+      }
 </script>
 
 </body>

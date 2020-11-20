@@ -1,22 +1,8 @@
-var firebaseConfig = {
-        apiKey: "AIzaSyBB8EVN1e95UFiz7_CLxSCygWPwWaMDang",
-        authDomain: "artbid-d3199.firebaseapp.com",
-        databaseURL: "https://artbid-d3199.firebaseio.com",
-        projectId: "artbid-d3199",
-        storageBucket: "artbid-d3199.appspot.com",
-        messagingSenderId: "255159898856",
-        appId: "1:255159898856:web:3f38ec796ee4587427af5d",
-        measurementId: "G-NLYVBLNPLW"
-      };
-      // Initialize Firebase
-      // firebase.analytics();
-    
-      firebase.initializeApp(firebaseConfig);
 // import * as firebase from "firebase/app";
 // import "firebase/database";
 
 
-exports.dbClass = class DataBase {
+export class DataBase {
 DataBase(key,domain,project_id,databaseURL,storage_bucket,messaging_sender,app_id,measurement_id){
   console.log("test")
   this.key = key;
@@ -51,13 +37,19 @@ _init_(){
     // appId:this.app_id,
     // measurementId: this.measurement_id
   };
+}
   // Initialize Firebase
   // firebase.analytics();
-getFirebaseInstance()
-  console.log(firebase.initializeApp(this.firebaseConfig))
+getFirebaseInstance(){
+  return this.firebase = firebase.initializeApp(this.firebaseConfig)
+}
+destroy(){
+  alert('done')
+  this.firebase.delete();
+}
+  
 
 
 }
-}
 
-// >>>>>>> 25f164e31bb87669a51090ab7e3d45ce62d74756
+

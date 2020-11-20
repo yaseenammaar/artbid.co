@@ -3,6 +3,9 @@
 <head>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
   <link rel="icon" href="img/heart.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
   <title>Artbid - Home</title>
@@ -401,12 +404,18 @@ h6{
         transform: rotate(-360deg);
       }
     }
+    #displaypic {
+      border-radius: 50%;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+
+    }
 
   </style>
 
 
 </head>
-<body>
+<body id="body">
 
 
 <div class="topbar">
@@ -422,41 +431,107 @@ h6{
 
         
       <center>
-      <img src="" width="100px" height="100px">
-
+      <img src="" id="displaypic" width="100px" height="100px">
       <br><br>
+      <span id="username"></span><br>
+      <span id="bio"></span><br>
+
+      <br>
       <button class="box" onclick="goto('profileedit.html')">Edit Profile</button>
       <button class="box" onclick="logout()">Log Out</button>
-
       </center>
     <span id="top-btns">
-      
-
     </span>
 
 
 <ul id="grid-ul">
-  <li><img src="https://i.etsystatic.com/15285954/r/il/d302ac/1645649674/il_570xN.1645649674_trta.jpg"></li>
-  <li><img src="https://moneydotcomvip.files.wordpress.com/2018/02/180209-olympic-medal-worth.jpg"></li>
-  <li><img src="https://image.cnbcfm.com/api/v1/image/101415692-olympicmedals2.jpg?v=1392320578&w=1600&h=900"></li>
-  <li><img src="https://thearabweekly.com/sites/default/files/styles/article_image_800x450_/public/2019-08/The-various-phases-of-the-evolution-of-Arabic-calligraphy-can-be-seen-at-the-Sharjah-Calligraphy-Museum-Courtesy-Sharjah-Museums-Authority.jpg?itok=DsEMGpkY"></li>
-  <li><img src="https://static.dezeen.com/uploads/2017/10/Olympic-Winter-Games-2018-Medals-by-Pyeong-Chang_dezeen_sq1.jpg"></li>
-  <li><img src="https://i0.wp.com/www.swimmingworldmagazine.com/news/wp-content/uploads/2015/07/2016-olympic-torch.jpg?fit=1300%2C1029&ssl=1"></li>
-  <li><img src="https://image.cnbcfm.com/api/v1/image/101415692-olympicmedals2.jpg?v=1392320578&w=1600&h=900"></li>
-  <li><img src="https://www.cacciapescaarcieriamassi.com/shop/image/cache/data/armi%20nuove/DA%20ANL136/ANL146H-800x800.jpg"></li>
-  <li><img src="https://i.etsystatic.com/15285954/r/il/d302ac/1645649674/il_570xN.1645649674_trta.jpg"></li>
-  <li><img src="https://moneydotcomvip.files.wordpress.com/2018/02/180209-olympic-medal-worth.jpg?quality=85"></li>
-  <li><img src="https://i0.wp.com/www.swimmingworldmagazine.com/news/wp-content/uploads/2015/07/2016-olympic-torch.jpg?fit=1300%2C1029&ssl=1"></li>
-  <li><img src="https://thearabweekly.com/sites/default/files/styles/article_image_800x450_/public/2019-08/The-various-phases-of-the-evolution-of-Arabic-calligraphy-can-be-seen-at-the-Sharjah-Calligraphy-Museum-Courtesy-Sharjah-Museums-Authority.jpg?itok=DsEMGpkY"></li>
+  <center><h6>Your Inventory is empty</h6></center>
 </ul>
   <hr class="sep-3" />
-  <center><h6>Stwpd Makes</h6></center>
-
+  <center>
+    <h6 onclick="showiconalert()" style="cursor: pointer;">Icons</h6>
+              <h6>Terms and Conditions | Contact Us | <a href="policy.html">Policy</a> | <a href="about.html">About</a></h6>
+    <h6>Stwpd Makes</h6>
+  </center>
 <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-database.js"></script>
+
     <script type="text/javascript" src="js/firebase.js"></script>
   
 <script type="text/javascript">
+
+  // $('#body').hide();
+
+  function getuser(){
+
+    var database = firebase.database();
+
+    var items = [];
+    var count = 0
+    var myitems = []
+
+    
+
+    
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+          $('#body').show();
+
+          database.ref('user/'+user.uid).on("value",function(userdata){
+            $("#displaypic").attr("src",userdata.val().profilePic);
+            $("#username").html("@"+userdata.val().username);
+            $("#bio").html(userdata.val().bio)
+            console.log(uid)
+          })
+
+          database.ref('useritems/'+user.uid).on("value",function(item){
+          $("#grid-ul").html('');
+          item.forEach(function(sn){
+              items.push(sn.val())
+          })
+          items = items.reverse();
+              items.forEach(function(entry){
+                database.ref('items').child(entry).on("value", function(snapshot){
+                    myitems.push(snapshot.val())
+                    count++;
+                    console.log(snapshot.val())
+                    if(count==items.length){
+                      myitems.forEach(function(entry) {
+                          console.log(entry);
+                          $("#grid-ul").append('<li onclick="goto(\'itempage.html\', \''+entry.itemid+ '\', \''+entry.featuredimage+ '\', \''+entry.itemid+ '\')" class=\'col\' ><img src=' + entry.featuredimage +'></li>');
+                          index++;
+                      });
+                      setclickevent();
+                    }
+                })
+              })
+        })
+
+        }else{
+          goto('login.html')
+        }
+      });
+
+
+  }
+  // function goto(link){
+  //   window.location.href = link;
+  // }
+
+  function goto(link,imageid,furl,userid){
+      var delayInMilliseconds = 500; //1 second
+      setTimeout(function() {
+        window.location.href = link;
+        localStorage.setItem("imageid",imageid);
+        localStorage.setItem("furl",furl);
+        localStorage.setItem("userid",userid);
+      }, delayInMilliseconds);
+    }
+    
+  getuser()
+
+
 
 
       // firebase.auth().onAuthStateChanged(function(user) {
@@ -466,7 +541,7 @@ h6{
       //     window.location.href = "index.html";
       //   }
       // });
-      function signout(){
+      function logout(){
         firebase.auth().signOut().then(function() {
           console.log('Signed Out');
           window.location.href = "index.html";
@@ -484,20 +559,12 @@ h6{
     window.location.href = 'profile.html';
 
   }
-  function showupcomingdialog(){
-      Swal.fire(
-        'Upcoming!!!',
-        'Told You',
-        'info',
-      )
-  }
+  
   var lis = document.getElementById("grid-ul").getElementsByTagName("li");
   for (i = 0; i < lis.length; i++) {
     lis[i].setAttribute("onclick","window.location.href = \'itempage.html\'");
   }
-  function goto(link){
-    window.location.href = link;
-  }
+  
   
 
 
@@ -510,7 +577,19 @@ h6{
     document.getElementById("livesearch").innerHTML=str;
     document.getElementById("livesearch").style.border="1px solid #A5ACB2";
   }
+
+  function followthis(){
+    var f = document.getElementById("followbtn").innerHTML
+    if(f=='Follow')
+    {
+      document.getElementById("followbtn").innerHTML  = 'Unfollow'
+    }else{
+      document.getElementById("followbtn").innerHTML = 'Follow'
+    }
+  }
 </script>
 
 </body>
 </html>
+   
+    
